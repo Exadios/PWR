@@ -5,7 +5,7 @@
 # Title: Passive Weather Radar test receiver
 # Author: Peter F Bradshaw
 # Description: This is a test receiver for the of the Passive Weather Radar
-# Generated: Tue Jun 25 10:25:03 2019
+# Generated: Tue Jun 25 10:38:53 2019
 ##################################################
 
 if __name__ == '__main__':
@@ -62,7 +62,7 @@ class PWR_test_receiver(gr.top_block, Qt.QWidget):
         ##################################################
         # Variables
         ##################################################
-        self.samp_rate = samp_rate = 32000
+        self.samp_rate = samp_rate = 8388608
 
         ##################################################
         # Blocks
@@ -121,7 +121,7 @@ class PWR_test_receiver(gr.top_block, Qt.QWidget):
         self.target_fft = fft.fft_vcc(1024, True, (window.rectangular(1024)), True, 1)
         self.rtlsdr_target_source = osmosdr.source( args="numchan=" + str(1) + " " + '' )
         self.rtlsdr_target_source.set_sample_rate(samp_rate)
-        self.rtlsdr_target_source.set_center_freq(100e6, 0)
+        self.rtlsdr_target_source.set_center_freq(970e6, 0)
         self.rtlsdr_target_source.set_freq_corr(0, 0)
         self.rtlsdr_target_source.set_dc_offset_mode(0, 0)
         self.rtlsdr_target_source.set_iq_balance_mode(0, 0)
@@ -134,7 +134,7 @@ class PWR_test_receiver(gr.top_block, Qt.QWidget):
           
         self.rtlsdr_reference_source = osmosdr.source( args="numchan=" + str(1) + " " + '' )
         self.rtlsdr_reference_source.set_sample_rate(samp_rate)
-        self.rtlsdr_reference_source.set_center_freq(100e6, 0)
+        self.rtlsdr_reference_source.set_center_freq(970e6, 0)
         self.rtlsdr_reference_source.set_freq_corr(0, 0)
         self.rtlsdr_reference_source.set_dc_offset_mode(0, 0)
         self.rtlsdr_reference_source.set_iq_balance_mode(0, 0)
