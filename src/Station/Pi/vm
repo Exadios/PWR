@@ -1,0 +1,18 @@
+#!/bin/bash
+
+#/usr/bin/qemu-system-arm \
+#    -monitor stdio \
+#    -M raspi2 \
+#    -machine accel=tcg \
+#    -m 1024 \
+#    -hdc /home/pfb/Software/System/2019-04-08-raspbian-stretch-lite-roroot.img \
+
+#-boot once=c,menu=on \
+
+#   -net nic,vlan=0,macaddr=00:5a:dc:26:01:f5 \
+#    -net user,vlan=0,hostname=hp15 \
+#    -rtc base=localtime \
+#    -name "ADSL"
+
+qemu-system-arm    -kernel kernel-qemu-4.14.79-stretch    -dtb versatile-pb.dtb    -m 256 -M versatilepb -cpu arm1176    -serial stdio    -append "rw console=ttyAMA0 root=/dev/sda2 rootfstype=ext4  loglevel=8 rootwait fsck.repair=yes memtest=1"    -drive file=./2019-04-08-raspbian-stretch-lite-roroot.img,format=raw    -redir tcp:5022::22     -no-reboot
+
