@@ -1645,7 +1645,7 @@
     </param>
     <param>
       <key>vlen</key>
-      <value>8192</value>
+      <value>vector_length</value>
     </param>
   </block>
   <block>
@@ -1692,7 +1692,7 @@
     </param>
     <param>
       <key>num_items</key>
-      <value>8192</value>
+      <value>vector_length</value>
     </param>
     <param>
       <key>vlen</key>
@@ -1743,7 +1743,7 @@
     </param>
     <param>
       <key>num_items</key>
-      <value>8192</value>
+      <value>vector_length</value>
     </param>
     <param>
       <key>vlen</key>
@@ -1770,7 +1770,7 @@
     </param>
     <param>
       <key>fft_size</key>
-      <value>8192</value>
+      <value>vector_length</value>
     </param>
     <param>
       <key>forward</key>
@@ -1810,7 +1810,7 @@
     </param>
     <param>
       <key>window</key>
-      <value>window.rectangular(1024)</value>
+      <value>window.rectangular(vector_length)</value>
     </param>
   </block>
   <block>
@@ -1845,7 +1845,7 @@
     </param>
     <param>
       <key>fftsize</key>
-      <value>8192</value>
+      <value>vector_length</value>
     </param>
     <param>
       <key>_coordinate</key>
