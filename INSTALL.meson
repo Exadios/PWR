@@ -1,0 +1,8 @@
+      Using meson to build
+
+~/Work/PWR$ meson out && cd out
+~/Work/PWR/out$ meson compile
+
+
+
+
