@@ -12,8 +12,11 @@
 *.la
 *.a
 
-# Meson build directory
+# Meson build directories
 out/
+build/
+native/
+pi/
 
 # Autoconfig - automake stuff
 autom4te.cache/
