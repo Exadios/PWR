@@ -1,0 +1,17 @@
+[properties]
+cpp_args = ['-DHAVE_NEON', '-DIS_ARM', '-mfloat-abi=hard', '-mfpu=neon']
+
+[host_machine]
+system     = 'linux'
+cpu_family = 'arm'
+cpu        = 'armv7h1'
+endian     = 'little'
+
+[binaries]
+exe_wrapper = 'qemu-arm-static'
+cpp         = '/opt/pi/root/usr/bin/arm-linux-gnueabihf-g++'
+c           = '/opt/pi/root/usr/bin/arm-linux-gnueabihf-gcc'
+ar          = '/opt/pi/root/usr/bin/arm-linux-gnueabihf-ar'
+strip       = '/opt/pi/root/usr/bin/arm-linux-gnueabihf-strip'
+pkgconfig   = '/opt/pi/root/usr/bin/arm-linux-gnueabihf-pkg-config'
+

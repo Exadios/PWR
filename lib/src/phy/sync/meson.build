@@ -1,0 +1,10 @@
+library('sync',
+                'cfo.cpp',
+                'cp.cpp',
+                'find_sss.cpp',
+                'gen_sss.cpp',
+                'pss.cpp',
+                'sfo.cpp',
+                'sss.cpp',
+                'sync.cpp', 
+                library_includes : lib_includes)
