@@ -27,7 +27,7 @@
 #include <complex.h>
 
 #include "config.hpp"
-#include "phy/utils/cexptab.h"
+#include "phy/utils/cexptab.hpp"
 
 #define SRSLTE_CFO_CEXPTAB_SIZE 4096
 
@@ -51,8 +51,8 @@ LTE_API int LteCfoResize(LteCfo_t *h, uint32_t samples);
 LTE_API void LteCfoSetTol(LteCfo_t *h, float tol);
 
 LTE_API void LteCfoCorrect(LteCfo_t *h, 
-                           const cf_t *input,
-                           cf_t *output,
+                           const Cf_t *input,
+                           Cf_t *output,
                            float freq);
 
 #endif // __CFO_H__

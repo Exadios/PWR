@@ -2,7 +2,7 @@
  * \section COPYRIGHT
  *
  * Passive Weather Radar (PWR).
- * Copyright (C) 2010-2020 Peter F Bradshaw
+ * Copyright (C) 2010-2021 Peter F Bradshaw
  * A detailed list of copyright holders can be found in the file "AUTHORS".
  *
  * \section LICENSE
@@ -22,13 +22,62 @@
  *
 */
 
-#include "phy/pss.hpp"
+#include "phy/sync/pss.hpp"
 
 #include <strings.h>
 #include <string.h>
 #include <stdlib.h>
 #include <complex.h>
 #include <math.h>
+
+//------------------------------------------------------------------------------
+int LtePssInitNId2(Cf_t *pss_signal_freq,
+                   Cf_t *pss_signal_time,
+                   uint32_t N_id_2,
+                   uint32_t fft_size,
+                   int cfo_i)
+  {
+  LteDftPlan_t plan;
+  Cf_t pss_signal_pad[2048];
+  int ret = LTE_ERROR_INVALID_INPUTS;
+  
+  if (srslte_N_id_2_isvalid(N_id_2) && fft_size <= 2048) 
+    {
+    
+    srslte_pss_generate(pss_signal_freq, N_id_2);
+
+    bzero(pss_signal_pad, fft_size * sizeof(Cf_t));
+    bzero(pss_signal_time, fft_size * sizeof(Cf_t));
+    memcpy(&pss_signal_pad[(fft_size - LTE_PSS_LEN) / 2 + cfo_i],
+           pss_signal_freq,
+           LTE_PSS_LEN * sizeof(Cf_t));
+
+    /* Convert signal into the time domain */    
+    if (srslte_dft_plan(&plan,
+                        fft_size,
+                        LTE_DFT_BACKWARD,
+                        LTE_DFT_COMPLEX))
+      {
+      return LTE_ERROR;
+      }
+    
+    LteDftPlanSetMirror(&plan, true);
+    LteDftPlanSetDc(&plan, true);
+    LteDftPlanSetNorm(&plan, true);
+    LteDftRunC(&plan, pss_signal_pad, pss_signal_time);
+
+    LteVecConjCc(pss_signal_time, pss_signal_time, fft_size);
+    LteVecScProdCfc(pss_signal_time,
+                    1.0 / LTE_PSS_LEN,
+                    pss_signal_time,
+                    fft_size);
+
+    LteDftPlanFree(&plan);
+
+    ret = LTE_SUCCESS;
+    }
+  return ret;
+  }
 
 //------------------------------------------------------------------------------
 int
@@ -51,15 +100,15 @@ LtePssInitFftOffset(LtePss_t* q,
                     unsigned int fft_size,
                     int offset)
   {
-  return LtePssInitFftOffsetDecimate(q, frame_size, fft_size, offset);
+  return LtePssInitFftOffsetDecim(q, frame_size, fft_size, offset, 1);
   }
 
 //------------------------------------------------------------------------------
-int LtePssInitFftOffsetDecimate(LtePss_t* q,
-                                unsigned int frame_size
-                                unsigned int fft_size,
-                                int offset,
-                                int decimate)
+int LtePssInitFftOffsetDecim(LtePss_t* q,
+                             unsigned int max_frame_size,
+                             unsigned int max_fft_size,
+                             int offset,
+                             int decimate)
   {
   int ret = LTE_ERROR_INVALID_INPUTS;
   if (q != NULL)
@@ -69,7 +118,7 @@ int LtePssInitFftOffsetDecimate(LtePss_t* q,
     uint32_t buffer_size;
     bzero(q, sizeof(LtePss_t));
     
-    q->n_id_2 = 10;  
+    q->N_id_2 = 10;  
     q->ema_alpha = 0.2;
 
     q->max_fft_size  = max_fft_size;
@@ -77,7 +126,7 @@ int LtePssInitFftOffsetDecimate(LtePss_t* q,
 
     q->decimate = decimate;
     uint32_t fft_size = max_fft_size/q->decimate;
-    uint32_t frame_size = max_frame_size/q->decimate;
+    uint32_t frame_size = max_frame_size / q->decimate;
     
     q->fft_size = fft_size;
     q->frame_size = frame_size;
@@ -116,7 +165,7 @@ int LtePssInitFftOffsetDecimate(LtePss_t* q,
 
     bzero(q->tmp_fft2, sizeof(Cf_t)*LTE_SYMBOL_SZ_MAX);
 
-    q->tmp_input = LteVecMalloc((buffer_size + frame_size*(q->decimate - 1)) * sizeof(Cf_t));
+    q->tmp_input = LteVecMalloc((buffer_size + frame_size * (q->decimate - 1)) * sizeof(Cf_t));
     if (!q->tmp_input)
       {
       fprintf(stderr, "Error allocating memory\n");
@@ -149,7 +198,7 @@ int LtePssInitFftOffsetDecimate(LtePss_t* q,
     bzero(q->conv_output_abs, sizeof(float) * buffer_size);
 #endif  // LTE_PSS_ACCUMULATE_ABS
 
-    for (n_id_2 = 0;n_id_2 < 3;n_id_2++)
+    for (n_id_2 = 0; n_id_2 < 3; n_id_2++)
       {
       q->pss_signal_time[n_id_2] = LteVecMalloc(buffer_size * sizeof(Cf_t));
       if (!q->pss_signal_time[n_id_2]) 

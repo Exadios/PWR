@@ -68,10 +68,10 @@ typedef struct LTE_API
   float corr_peak_threshold;
   uint32_t symbol_sz;
   uint32_t subframe_sz;
-  uint32_t N_id_2;
+  uint32_t n_id_2;
   
-  uint32_t N_id_1_table[30][30];
-  LteSssFcTables_t fc_tables[3]; // one for each N_id_2
+  uint32_t n_id_1_table[30][30];
+  LteSssFcTables_t fc_tables[3]; // one for each n_id_2
 
   float corr_output_m0[LTE_SSS_N];
   float corr_output_m1[LTE_SSS_N];
@@ -91,7 +91,7 @@ LTE_API void LteSssPutSlot(float *sss,
                            Cf_t *symbol, 
                            uint32_t nof_prb, 
                            LteCp_t cp);
-LTE_API int LteSssSetNId(LteSss_t *q, uint32_t N_id_2);
+LTE_API int LteSssSetNId2(LteSss_t *q, uint32_t n_id_2);
 LTE_API int LteSssM0m1Partial(LteSss_t *q,
                               const Cf_t *input,
                               uint32_t M, 
@@ -118,10 +118,21 @@ LTE_API int LteSssNId1(LteSss_t *q, uint32_t m0, uint32_t m1);
 LTE_API int LteSssFrame(LteSss_t *q,
                         Cf_t *input, 
                         uint32_t *subframe_idx, 
-                        uint32_t *N_id_1);
+                        uint32_t *n_id_1);
 LTE_API void LteSssSetThreshold(LteSss_t *q, float threshold);
 LTE_API void LteSssSetSymbol(LteSss_t *q, uint32_t symbol_sz);
 LTE_API void LteSssSetSubframe(LteSss_t *q, uint32_t subframe_sz);
+
+void generate_zsc_tilde(int *z_tilde, int *s_tilde, int *c_tilde);
+void generate_m0m1(uint32_t N_id_1, uint32_t *m0, uint32_t *m1);
+void generate_N_id_1_table(uint32_t table[30][30]);
+void generate_s(int *s, int *s_tilde, uint32_t m0_m1);
+void generate_s_all(int s[LTE_SSS_N][LTE_SSS_N], int *s_tilde);
+void generate_c(int *c, int *c_tilde, uint32_t N_id_2, bool is_c0);
+void generate_z(int *z, int *z_tilde, uint32_t m0_m1);
+void generate_z_all(int z[LTE_SSS_N][LTE_SSS_N], int *z_tilde);
+void generate_sss_all_tables(LteSssTables_t *tables, uint32_t N_id_2);
+void LteSssGenerate(float *signal0, float *signal5, uint32_t cell_id);
 
 #endif //__SSS_H__
 

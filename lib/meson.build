@@ -1,2 +1,2 @@
-subdir('src/phy/utils')
-#subdir('src/phy/sync')
+subdir('src')
+subdir('examples')

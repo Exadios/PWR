@@ -1,0 +1,3 @@
+#!/bin/bash
+
+astyle -A5 -s2 $*

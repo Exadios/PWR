@@ -26,7 +26,7 @@
 #include <complex.h>
 #include <math.h>
 
-#include "phy/utils/vector.hpp"
+#include "phy/vector/vector.hpp"
 #include "phy/sync/sss.hpp"
 
 #define MAX_M 3
@@ -41,7 +41,7 @@ static void CorrAllZs(Cf_t z[LTE_SSS_N], float s[LTE_SSS_N][LTE_SSS_N-1], float 
     {
     tmp[m] = LteVecDotProdCfc(z, s[m], LTE_SSS_N - 1);    
     }
-  LteVecAbsSquare_cf(tmp, output, LTE_SSS_N);
+  LteVecAbsSquareCf(tmp, output, LTE_SSS_N);
   }
 
 //------------------------------------------------------------------------------
@@ -67,7 +67,7 @@ static void CorrAllSzPartial(Cf_t z[LTE_SSS_N], float s[LTE_SSS_N][LTE_SSS_N], u
       {
       ptr = tmp_abs[j - 1];
       }
-    LteVecAbsSquare_cf(tmp, ptr, LTE_SSS_N);   
+    LteVecAbsSquareCf(tmp, ptr, LTE_SSS_N);   
     }
   for (j = 1; j < M; j++)
     {
@@ -96,8 +96,8 @@ static void ExtractPairSss(LteSss_t *q, const Cf_t *input, Cf_t *ce, Cf_t y[2][L
     y[1][i] = input_fft[q->fft_size / 2-LTE_SSS_N + 2 * i + 1];
     }
 
-  LteVecProdCfc(y[0], q->fc_tables[q->N_id_2].c[0], y[0], LTE_SSS_N);
-  LteVecProdCfc(y[1], q->fc_tables[q->N_id_2].c[1], y[1], LTE_SSS_N);
+  LteVecProdCfc(y[0], q->fc_tables[q->n_id_2].c[0], y[0], LTE_SSS_N);
+  LteVecProdCfc(y[1], q->fc_tables[q->n_id_2].c[1], y[1], LTE_SSS_N);
 
   }    
 
@@ -105,7 +105,7 @@ static void ExtractPairSss(LteSss_t *q, const Cf_t *input, Cf_t *ce, Cf_t y[2][L
 int LteSssM0m1Diff(LteSss_t *q, const Cf_t *input, uint32_t *m0, float *m0_value,
     uint32_t *m1, float *m1_value) 
   {
-  return LteSssM0m1Diff_coh(q, input, NULL, m0, m0_value, m1, m1_value);
+  return LteSssM0m1DiffCoh(q, input, NULL, m0, m0_value, m1, m1_value);
   }
 
 //------------------------------------------------------------------------------
@@ -135,17 +135,17 @@ int LteSssM0m1DiffCoh(LteSss_t *q, const Cf_t *input, Cf_t ce[2*LTE_SSS_N], uint
     ExtractPairSss(q, input, ce, y);
     
     LteVecProdConjCcc(&y[0][1], y[0], yprod, LTE_SSS_N - 1);    
-    CorrAllZs(yprod, q->fc_tables[q->N_id_2].sd, q->corr_output_m0);
-    *m0 = LteVecMaxVi(q->corr_output_m0, LTE_SSS_N);
+    CorrAllZs(yprod, q->fc_tables[q->n_id_2].sd, q->corr_output_m0);
+    *m0 = LteVecMaxFi(q->corr_output_m0, LTE_SSS_N);
     if (m0_value)
       {
       *m0_value = q->corr_output_m0[*m0];
       }    
     
-    LteVecProdCfc(y[1], q->fc_tables[q->N_id_2].z1[*m0], y[1], LTE_SSS_N);
+    LteVecProdCfc(y[1], q->fc_tables[q->n_id_2].z1[*m0], y[1], LTE_SSS_N);
     LteVecProdConjCcc(&y[1][1], y[1], yprod, LTE_SSS_N - 1);
-    CorrAllZs(yprod, q->fc_tables[q->N_id_2].sd, q->corr_output_m1);
-    *m1 = LteVecMaxVi(q->corr_output_m1, LTE_SSS_N);
+    CorrAllZs(yprod, q->fc_tables[q->n_id_2].sd, q->corr_output_m1);
+    *m1 = LteVecMaxFi(q->corr_output_m1, LTE_SSS_N);
     if (m1_value)
       {
       *m1_value = q->corr_output_m1[*m1];
@@ -179,15 +179,15 @@ int LteSssM0m1Partial(LteSss_t *q, const Cf_t *input, uint32_t M, Cf_t ce[2*LTE_
     
     ExtractPairSss(q, input, ce, y);
     
-    CorrAllSzPartial(y[0], q->fc_tables[q->N_id_2].s, M, q->corr_output_m0);    
-    *m0 = LteVecMaxVi(q->corr_output_m0, LTE_SSS_N);
+    CorrAllSzPartial(y[0], q->fc_tables[q->n_id_2].s, M, q->corr_output_m0);    
+    *m0 = LteVecMaxFi(q->corr_output_m0, LTE_SSS_N);
     if (m0_value)
       {
       *m0_value = q->corr_output_m0[*m0];
       }
-    LteVecProdCfc(y[1], q->fc_tables[q->N_id_2].z1[*m0], y[1], LTE_SSS_N);
-    CorrAllSzPartial(y[1], q->fc_tables[q->N_id_2].s, M, q->corr_output_m1);
-    *m1 = LteVecMaxVi(q->corr_output_m1, LTE_SSS_N);
+    LteVecProdCfc(y[1], q->fc_tables[q->n_id_2].z1[*m0], y[1], LTE_SSS_N);
+    CorrAllSzPartial(y[1], q->fc_tables[q->n_id_2].s, M, q->corr_output_m1);
+    *m1 = LteVecMaxFi(q->corr_output_m1, LTE_SSS_N);
     if (m1_value) 
       {
       *m1_value = q->corr_output_m1[*m1];
