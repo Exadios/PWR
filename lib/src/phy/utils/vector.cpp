@@ -28,8 +28,8 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "phy/utils/vector.hpp"
-#include "phy/utils/vector_simd.hpp"
+#include "phy/vector/vector.hpp"
+#include "phy/vector/vector_simd.hpp"
 #include "phy/utils/bit.hpp"
 
 

@@ -25,12 +25,12 @@
 #include <strings.h>
 #include <stdlib.h>
 #include <math.h>
-#include <lte.h>
+#include "lte.hpp"
 
 #include "phy/utils/cexptab.hpp"
 #include "phy/sync/cfo.hpp"
-#include "phy/utils/vector.hpp"
-#include "phy/utils/debug.hpp"
+#include "phy/vector/vector.hpp"
+//#include "phy/utils/debug.hpp"
 
 /* Set next macro to 1 for using table generated CFO compensation */
 #define LTE_CFO_USE_EXP_TABLE 0

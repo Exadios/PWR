@@ -31,7 +31,7 @@
 #include "phy/sync/sss.hpp"
 #include "phy/dft/dft.hpp"
 #include "phy/utils/convolution.hpp"
-#include "phy/utils/vector.hpp"
+#include "phy/vector/vector.hpp"
 
 void generate_sss_all_tables(LteSssTables_t *tables, uint32_t N_id_2);
 void convert_tables(LteSssFcTables_t *fc_tables, LteSssTables_t *in);
@@ -53,15 +53,15 @@ int LteSssInit(LteSss_t *q, uint32_t fft_size)
       LteSssFree(q);
       return LTE_ERROR;
       }
-    LteDftPlan_set_mirror(&q->dftp_input, true);
-    LteDftPlan_set_dc(&q->dftp_input, true);
+    LteDftPlanSetMirror(&q->dftp_input, true);
+    LteDftPlanSetDc(&q->dftp_input, true);
 
     q->fft_size = fft_size; 
     q->max_fft_size = fft_size;
 
-    generate_N_id_1_table(q->N_id_1_table);
+    generate_N_id_1_table(q->n_id_1_table);
     
-    for (n_id_2 = 0;n_id_2 < 3;n_id_2++)
+    for (n_id_2 = 0; n_id_2 < 3; n_id_2++)
       {
       generate_sss_all_tables(&sss_tables, n_id_2);
       convert_tables(&q->fc_tables[n_id_2], &sss_tables);
@@ -96,7 +96,7 @@ int LteSssResize(LteSss_t *q, uint32_t fft_size)
 //------------------------------------------------------------------------------
 void LteSssFree(LteSss_t *q)
   {
-  LteDftPlan_free(&q->dftp_input);
+  LteDftPlanFree(&q->dftp_input);
   bzero(q, sizeof(LteSss_t));
   }
 
@@ -119,7 +119,7 @@ int LteSssSetNId2(LteSss_t *q, uint32_t n_id_2)
 //------------------------------------------------------------------------------
 /** 36.211 10.3 section 6.11.2.2
  */
-void LteSssPutSlot(float *sss, cf_t *slot, uint32_t nof_prb, LteCp_t cp)
+void LteSssPutSlot(float *sss, Cf_t *slot, uint32_t nof_prb, LteCp_t cp)
   {
   uint32_t i, k;
 
@@ -127,13 +127,13 @@ void LteSssPutSlot(float *sss, cf_t *slot, uint32_t nof_prb, LteCp_t cp)
   
   if (k > 5)
     {
-    memset(&slot[k - 5], 0, 5 * sizeof(cf_t));
+    memset(&slot[k - 5], 0, 5 * sizeof(Cf_t));
     for (i = 0; i < LTE_SSS_LEN; i++)
       {
       __real__ slot[k + i] = sss[i];
       __imag__ slot[k + i] = 0;
       }
-    memset(&slot[k + LTE_SSS_LEN], 0, 5 * sizeof(cf_t));
+    memset(&slot[k + LTE_SSS_LEN], 0, 5 * sizeof(Cf_t));
     }
   }
 
@@ -167,14 +167,14 @@ int LteSssNId1(LteSss_t *q, uint32_t m0, uint32_t m1)
     {
     if (m0 < 30 && m1 - 1 < 30)
       {
-      N_id_1 = q->N_id_1_table[m0][m1 - 1];
+      N_id_1 = q->n_id_1_table[m0][m1 - 1];
       }
     }
   else
     {
     if (m1 < 30 && m0 - 1 < 30)
       {
-      N_id_1 = q->N_id_1_table[m1][m0 - 1];
+      N_id_1 = q->n_id_1_table[m1][m0 - 1];
       }
     } 
   return N_id_1;

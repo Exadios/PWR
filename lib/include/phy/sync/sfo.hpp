@@ -29,18 +29,18 @@
  *  Reference:
  *****************************************************************************/
 
-#ifndef SRSLTE_SFO_H
-#define SRSLTE_SFO_H
+#ifndef __SFO_HPP__
+#define __SFO_HPP__
 
 #include "config.hpp"
 
-SRSLTE_API float LteSfoEstimate(int *t0, 
-                                     int len, 
-                                     float period);
+LTE_API float LteSfoEstimate(int *t0, 
+                             int len, 
+                             float period);
 
-SRSLTE_API float LteSfoEstimatePeriod(int *t0, 
-                                      int *t, 
-                                      int len, 
-                                      float period);
+LTE_API float LteSfoEstimatePeriod(int *t0, 
+                                   int *t, 
+                                   int len, 
+                                   float period);
 
-#endif // SRSLTE_SFO_H
+#endif // __SFO_HPP__

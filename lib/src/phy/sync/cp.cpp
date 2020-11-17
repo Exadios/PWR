@@ -26,8 +26,8 @@
 #include "lte.hpp"
 
 #include "phy/sync/cp.hpp"
-#include "phy/utils/vector.hpp"
-#include "phy/utils/debug.hpp"
+#include "phy/vector/vector.hpp"
+//#include "phy/utils/debug.hpp"
 
 //------------------------------------------------------------------------------
 int LteCpSynchInit(LteCpSynch_t *q, uint32_t symbol_sz) 
@@ -35,7 +35,7 @@ int LteCpSynchInit(LteCpSynch_t *q, uint32_t symbol_sz)
   q->symbol_sz = symbol_sz;
   q->max_symbol_sz = symbol_sz;
 
-  q->corr = LteVecMalloc(sizeof(Cf_t) * q->symbol_sz);
+  q->corr = (Cf_t *)LteVecMalloc(sizeof(Cf_t) * q->symbol_sz);
   if (!q->corr)
     {
     perror("malloc");

@@ -31,15 +31,16 @@
 #include <complex.h>
 #include <math.h>
 
-#include "config.h"
-#include "version.h"
+#include "config.hpp"
+#include "version.hpp"
 
-#include "phy/utils/bit.h"
+#include "phy/utils/bit.hpp"
+#if 0
 #include "phy/utils/ringbuffer.h"
 #include "phy/utils/convolution.h"
 #include "phy/utils/debug.h"
 #include "phy/utils/cexptab.h"
-#include "phy/utils/vector.h"
+#include "phy/utils/vector.hpp"
 
 #include "phy/common/timestamp.h"
 #include "phy/common/sequence.h"
@@ -53,13 +54,14 @@
 #include "phy/dft/dft_precoding.h"
 #include "phy/dft/ofdm.h"
 #include "phy/dft/dft.h"
+#endif
 
-#include "phy/sync/pss.h"
-#include "phy/sync/sfo.h"
-#include "phy/sync/sss.h"
-#include "phy/sync/sync.h"
-#include "phy/sync/cfo.h"
-#include "phy/sync/cp.h"
+#include "phy/sync/pss.hpp"
+#include "phy/sync/sfo.hpp"
+#include "phy/sync/sss.hpp"
+#include "phy/sync/sync.hpp"
+#include "phy/sync/cfo.hpp"
+#include "phy/sync/cp.hpp"
 
 #ifdef __cplusplus
 }

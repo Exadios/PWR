@@ -30,8 +30,8 @@
 #include <stdio.h>
 
 #include <config.hpp>
-#include "phy/utils/vector_simd.hpp"
-#include "phy/utils/simd.hpp"
+#include "phy/vector/vector_simd.hpp"
+#include "phy/vector/simd.hpp"
 
 
 //------------------------------------------------------------------------------

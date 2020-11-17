@@ -28,10 +28,10 @@
 #include <math.h>
 #include <lte.hpp>
 
-#include "phy/utils/debug.hpp"
+//#include "phy/utils/debug.hpp"
 #include "phy/common/phy_common.hpp"
 #include "phy/sync/sync.hpp"
-#include "phy/utils/vector.hpp"
+#include "phy/vector/vector.hpp"
 #include "phy/sync/cfo.hpp"
 
 #define CFO_EMA_ALPHA   0.1
@@ -44,7 +44,7 @@
 //------------------------------------------------------------------------------
 static bool FftSizeIsValid(uint32_t fft_size)
   {
-  if (fft_size >= LTE_SYNC_FFT_SZ_MIN && fft_size <= LTE_SYNC_FFT_SZ_MAX && (fft_size%64) == 0)
+  if (fft_size >= LTE_SYNC_FFT_SZ_MIN && fft_size <= LTE_SYNC_FFT_SZ_MAX && (fft_size % 64) == 0)
     {
     return true;
     } 
@@ -59,6 +59,8 @@ int LteSyncInit(LteSync_t *q, uint32_t frame_size, uint32_t max_offset, uint32_t
   {
   return LteSyncInitDecim(q, frame_size, max_offset, fft_size, 1);
   }
+
+//------------------------------------------------------------------------------
 int LteSyncInitDecim(LteSync_t *q, uint32_t frame_size, uint32_t max_offset, uint32_t fft_size, int decimate)
   {
 
@@ -107,7 +109,7 @@ int LteSyncInitDecim(LteSync_t *q, uint32_t frame_size, uint32_t max_offset, uin
 
     for (int i = 0; i < 2; i++)
       {
-      q->cfo_i_corr[i] = LteVecMalloc(sizeof(Cf_t)*q->frame_size);
+      q->cfo_i_corr[i] = LteVecMalloc(sizeof(Cf_t*)q->frame_size);
       if (!q->cfo_i_corr[i])
         {
         perror("malloc");
@@ -627,10 +629,12 @@ static int CfoIEstimate(LteSync_t *q, const Cf_t *input, int find_offset, int *p
 /** Finds the PSS sequence previously defined by a call to LteSyncSetNId2()
  * around the position find_offset in the buffer input.
  *
- * Returns 1 if the correlation peak exceeds the threshold set by LteSyncSetThreshold() 
- * or 0 otherwise. Returns a negative number on error (if N_id_2 has not been set) 
+ * Returns 1 if the correlation peak exceeds the threshold set by
+ * LteSyncSetThreshold() or 0 otherwise. Returns a negative number on error
+ * (if N_id_2 has not been set).
  *
- * The input signal is not modified. Any CFO correction is done in internal buffers
+ * The input signal is not modified. Any CFO correction is done in internal
+ * buffers
  *
  * The maximum of the correlation peak is always stored in *peak_position
  */

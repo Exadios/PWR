@@ -22,18 +22,20 @@
  */
 
 /******************************************************************************
- *  File:         sync.h
  *
- *  Description:  Time and frequency synchronization using the PSS and SSS signals.
+ *  Description:  Time and frequency synchronization using the PSS and SSS
+ *                signals.
  *
- *                The object is designed to work with signals sampled at 1.92 Mhz
- *                centered at the carrier frequency. Thus, downsampling is required
- *                if the signal is sampled at higher frequencies.
+ *                The object is designed to work with signals sampled at
+ *                1.92 Mhz centered at the carrier frequency. Thus,
+ *                downsampling is required if the signal is sampled at higher
+ *                frequencies.
  *
- *                Correlation peak is detected comparing the maximum at the output
- *                of the correlator with a threshold. The comparison accepts two
- *                modes: absolute value or peak-to-mean ratio, which are configured
- *                with the functions sync_pss_det_absolute() and sync_pss_det_peakmean().
+ *                Correlation peak is detected comparing the maximum at the 
+ *                output of the correlator with a threshold. The comparison
+ *                accepts two modes: absolute value or peak-to-mean ratio,
+ *                which are configured with the functions 
+ *                sync_pss_det_absolute() and sync_pss_det_peakmean().
  *
  *
  *  Reference:    3GPP TS 36.211 version 10.0.0 Release 10 Sec. 6.11.1, 6.11.2
@@ -64,10 +66,10 @@ SssAlg_t;
 
 typedef struct LTE_API
   {
-  lte_pss_t pss;
-  lte_pss_t pss_i[2];
-  lte_sss_t sss;
-  lte_cp_synch_t cp_synch;
+  LtePss_t pss;
+  LtePss_t pss_i[2];
+  LteSss_t sss;
+  LteCpSynch_t cp_synch;
   Cf_t *cfo_i_corr[2];
   int decimate;
   float threshold;
@@ -119,18 +121,18 @@ typedef struct LTE_API
 
   bool sss_channel_equalize;
   bool pss_filtering_enabled;
-  Cf_t sss_filt[SRSLTE_SYMBOL_SZ_MAX];
-  Cf_t pss_filt[SRSLTE_SYMBOL_SZ_MAX];
+  Cf_t sss_filt[LTE_SYMBOL_SZ_MAX];
+  Cf_t pss_filt[LTE_SYMBOL_SZ_MAX];
 
   }
 LteSync_t;
 
 typedef enum
   {
-  SRSLTE_SYNC_FOUND = 1, 
-  SRSLTE_SYNC_FOUND_NOSPACE = 2, 
-  SRSLTE_SYNC_NOFOUND = 0, 
-  SRSLTE_SYNC_ERROR = -1  
+  LTE_SYNC_FOUND = 1, 
+  LTE_SYNC_FOUND_NOSPACE = 2, 
+  LTE_SYNC_NOFOUND = 0, 
+  LTE_SYNC_ERROR = -1  
   }
 LteSyncFindRet_t; 
 
@@ -156,6 +158,27 @@ LTE_API int LteSyncResize(LteSync_t *q,
 LTE_API void LteSyncReset(LteSync_t *q); 
 
 /* Finds a correlation peak in the input signal around position find_offset */
+/** Finds the PSS sequence previously defined by a call to LteSyncSetNId2()
+ * around the position find_offset in the buffer input.
+ *
+ * Returns 1 if the correlation peak exceeds the threshold set by
+ * LteSyncSetThreshold() or 0 otherwise. Returns a negative number on error
+ * (if N_id_2 has not been set).
+ *
+ * The input signal is not modified. Any CFO correction is done in internal
+ * buffers
+ *
+ * The maximum of the correlation peak is always stored in *peak_position
+ *
+ * @param q This object.
+ * @param input The observed sequence.
+ * @param offset The offset into the input sequence.
+ * @param peak_position The position of the correlation peak, if found.
+ * @return If the correlation peak is greater than the threshold previously
+ *         set by LteSyncSetThreshold() then return 1, return 0 otherwise.
+ *         If an error is detected then return negative number.
+ */
+
 LTE_API LteSyncFindRet_t LteSyncFind(LteSync_t *q, 
                                      const Cf_t *input,
                                      uint32_t find_offset,
@@ -181,7 +204,10 @@ LTE_API void LteSyncSetSss_algorithm(LteSync_t *q, SssAlg_t alg);
 /* Sets PSS exponential averaging alpha weight */
 LTE_API void LteSyncSetEmAlpha(LteSync_t *q, float alpha);
 
-/* Sets the N_id_2 to search for */
+/* Sets the N_id_2 to search for.
+ * @param N_id_2 The cell id.
+ * @return Either LTE_SUCCESS or  LTE_ERROR_INVALID_INPUTS.
+ */
 LTE_API int LteSyncSetNId2(LteSync_t *q, uint32_t N_id_2);
 
 /* Gets the Physical CellId from the last call to synch_run() */

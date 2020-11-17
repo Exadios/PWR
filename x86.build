@@ -1,0 +1,39 @@
+[properties]
+#cpp_args = ['-DHAVE_SSE', '-DLV_HAVE_SSE']
+#c_args   = ['-D_GNU_SOURCE', 
+#            '-DHAVE_SSE',
+#            '-mfpmath=sse',
+#            '-mavx2',
+#            '-DLV_HAVE_AVX2',
+#            '-DLV_HAVE_AVX',
+#            '-DLV_HAVE_SSE',
+#            '-march=native',
+#            '-std=c99', ]
+c_args    = ['-D_GNU_SOURCE',
+             '-DHAVE_MBEDTLS',
+             '-funroll-loops', 
+             '-fPIC', 
+             '-O3', 
+             '-fno-trapping-math',
+             '-fno-math-errno',
+             '-mms-bitfields',
+             '-march=native',
+             '-std=c99', 
+             '-mfpmath=sse',
+             '-mavx',
+             '-DLV_HAVE_SSE',
+             '-DLV_HAVE_AVX', ]
+
+[host_machine]
+system     = 'linux'
+cpu_family = 'x86'
+cpu        = 'x86_64'
+endian     = 'little'
+
+[binaries]
+# Use the system's installed compiler
+cpp         = 'g++'
+c           = 'cc'
+ar          = 'ar'
+strip       = 'strip'
+pkgconfig   = 'pkg-config'
