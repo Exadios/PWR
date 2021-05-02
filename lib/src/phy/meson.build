@@ -104,6 +104,7 @@ utils_srcs = [ 'utils/bit.c',
 threads = dependency('threads')
 fftwf   = dependency('fftw3f')
 fftw    = dependency('fftw3')
+soapy   = dependency('SoapySDR')
 libphy = static_library('phy',
                           agc_srcs,
                           channel_srcs,
@@ -123,6 +124,7 @@ libphy = static_library('phy',
                           ue_srcs,
                           utils_srcs,
                         include_directories : [ lib_includes, soapy_includes ],
-                        dependency : [ threads, fftw, fftwf ],
+                        dependency : [ threads, fftw, fftwf, soapy ],
+                        cpp_args : '-DENABLE_SOAPYSDR',
+                        c_args : '-DENABLE_SOAPYSDR',
                        )
-#subdir('rf')

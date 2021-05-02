@@ -20,7 +20,7 @@ libsoapy   = c_compiler.find_library('libSoapySDR')
 libpthread = c_compiler.find_library('libpthread')
 libfftw3   = c_compiler.find_library('libfftw3f')
 libmath    = c_compiler.find_library('libm')
-extralibs  = [ libpthread, libfftw3, libmath ]
+extralibs  = [ libsoapy, libpthread, libfftw3, libmath ]
 srslibs = [ libcommon, 
             libphy,
             libsync, 
