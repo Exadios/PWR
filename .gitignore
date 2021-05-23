@@ -16,6 +16,7 @@
 out/
 out-x86/
 out-arm/
+out-pi/
 build/
 native/
 pi/
