@@ -1,8 +1,14 @@
       Using meson to build
 
-~/Work/PWR$ meson out && cd out
-~/Work/PWR/out$ meson compile
+~/Work/PWR$ meson setup --cross-file x86.build out-x86
+cd out-x86
+ninja -j4
 
+      and
+
+~/Work/PWR$ meson setup --cross-file pi.build out-pi
+cd out-pi
+ninja -j4
 
 
 
