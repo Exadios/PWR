@@ -1,0 +1,375 @@
+options:
+  parameters:
+    author: Johannes Demel
+    category: Custom
+    cmake_opt: ''
+    comment: ''
+    copyright: ''
+    description: ''
+    gen_cmake: 'On'
+    gen_linking: dynamic
+    generate_options: qt_gui
+    hier_block_src_path: '.:'
+    id: lte_top_block_siso
+    max_nouts: '0'
+    output_language: python
+    placement: (0,0)
+    qt_qss_theme: ''
+    realtime_scheduling: ''
+    run: 'True'
+    run_command: '{python} -u {filename}'
+    run_options: prompt
+    sizing_mode: fixed
+    thread_safe_setters: ''
+    title: LTE top level flowgraph SISO
+    window_size: 1920, 1080
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [6, 5]
+    rotation: 0
+    state: enabled
+
+blocks:
+- name: N_rb_dl
+  id: variable
+  parameters:
+    comment: ''
+    value: '6'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [195, 6]
+    rotation: 0
+    state: enabled
+- name: fftlen
+  id: variable
+  parameters:
+    comment: ''
+    value: '2048'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [265, 6]
+    rotation: 0
+    state: enabled
+- name: frame_key
+  id: variable
+  parameters:
+    comment: ''
+    value: '"slot"'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [560, 4.0]
+    rotation: 0
+    state: enabled
+- name: interp_val
+  id: variable
+  parameters:
+    comment: ''
+    value: int(samp_rate/1e4)
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [800, 12.0]
+    rotation: 0
+    state: disabled
+- name: pbch_descr_key
+  id: variable
+  parameters:
+    comment: ''
+    value: '"descr_part"'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [371, 7]
+    rotation: 0
+    state: enabled
+- name: samp_rate
+  id: variable
+  parameters:
+    comment: ''
+    value: (7*fftlen + 160* fftlen/2048 + 6 * (144 * fftlen/2048)) / 0.0005
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [696, 12.0]
+    rotation: 0
+    state: enabled
+- name: MIB
+  id: lte_mib_unpack_vbm
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1040, 600.0]
+    rotation: 0
+    state: enabled
+- name: blocks_throttle_0
+  id: blocks_throttle
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    ignoretag: 'True'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    samples_per_second: samp_rate/1e4
+    type: complex
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [624, 428.0]
+    rotation: 0
+    state: true
+- name: lte_bch_decoder_0
+  id: lte_bch_decoder
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [896, 648.0]
+    rotation: 0
+    state: enabled
+- name: lte_channel_estimator_0
+  id: lte_channel_estimator
+  parameters:
+    N_rb_dl: N_rb_dl
+    affinity: ''
+    alias: ''
+    comment: ''
+    estimator_key: '"slot"'
+    initial_id: '124'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [512, 644.0]
+    rotation: 0
+    state: enabled
+- name: lte_cp_ffo_sync_0
+  id: lte_cp_ffo_sync
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    fftlen: fftlen
+    maxoutbuf: '0'
+    minoutbuf: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [80, 532.0]
+    rotation: 180
+    state: enabled
+- name: lte_ofdm_demodulator_0
+  id: lte_ofdm_demodulator
+  parameters:
+    N_rb_dl: N_rb_dl
+    affinity: ''
+    alias: ''
+    comment: ''
+    fftlen: fftlen
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    ofdm_key: '"slot"'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [288, 596.0]
+    rotation: 0
+    state: enabled
+- name: lte_pbch_decoder_0
+  id: lte_pbch_decoder
+  parameters:
+    N_rb_dl: '50'
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [736, 616.0]
+    rotation: 0
+    state: enabled
+- name: lte_pcfich_decoder_0
+  id: lte_pcfich_decoder
+  parameters:
+    N_rb_dl: N_rb_dl
+    affinity: ''
+    alias: ''
+    comment: ''
+    key: '"slot"'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [736, 776.0]
+    rotation: 0
+    state: enabled
+- name: lte_pss_sync_0
+  id: lte_pss_sync
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    fftlen: fftlen
+    maxoutbuf: '0'
+    minoutbuf: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [328, 532.0]
+    rotation: 180
+    state: enabled
+- name: lte_sss_sync_0
+  id: lte_sss_sync
+  parameters:
+    N_rb_dl: N_rb_dl
+    affinity: ''
+    alias: ''
+    comment: ''
+    fftlen: fftlen
+    group_key: '"N_id_2"'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    offset_key: '"offset_marker"'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [64, 636.0]
+    rotation: 0
+    state: enabled
+- name: pad_sink_0
+  id: pad_sink
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    label: PSS_sync
+    num_streams: '1'
+    optional: 'False'
+    type: complex
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [328, 476.0]
+    rotation: 0
+    state: true
+- name: pad_sink_1
+  id: pad_sink
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    label: SSS_sync
+    num_streams: '1'
+    optional: 'False'
+    type: complex
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [296, 892.0]
+    rotation: 0
+    state: true
+- name: pad_source_0
+  id: pad_source
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    label: in
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    num_streams: '1'
+    optional: 'False'
+    type: complex
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [80, 428.0]
+    rotation: 0
+    state: true
+- name: sync_lte_rough_symbol_sync_cc_0
+  id: lte_rough_symbol_sync_cc
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    fftl: fftlen
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [528, 524.0]
+    rotation: 180
+    state: enabled
+
+connections:
+- [MIB, N_ant, lte_pcfich_decoder_0, N_ant]
+- [blocks_throttle_0, '0', sync_lte_rough_symbol_sync_cc_0, '0']
+- [lte_bch_decoder_0, '0', MIB, '0']
+- [lte_bch_decoder_0, '1', MIB, '1']
+- [lte_channel_estimator_0, '0', lte_pbch_decoder_0, '1']
+- [lte_channel_estimator_0, '0', lte_pcfich_decoder_0, '1']
+- [lte_channel_estimator_0, '1', lte_pbch_decoder_0, '2']
+- [lte_channel_estimator_0, '1', lte_pcfich_decoder_0, '2']
+- [lte_cp_ffo_sync_0, '0', lte_sss_sync_0, '0']
+- [lte_ofdm_demodulator_0, '0', lte_channel_estimator_0, '0']
+- [lte_ofdm_demodulator_0, '0', lte_pbch_decoder_0, '0']
+- [lte_ofdm_demodulator_0, '0', lte_pcfich_decoder_0, '0']
+- [lte_pbch_decoder_0, '0', lte_bch_decoder_0, '0']
+- [lte_pss_sync_0, '0', lte_cp_ffo_sync_0, '0']
+- [lte_pss_sync_0, '0', pad_sink_0, '0']
+- [lte_sss_sync_0, '0', lte_ofdm_demodulator_0, '0']
+- [lte_sss_sync_0, '0', pad_sink_1, '0']
+- [lte_sss_sync_0, cell_id, lte_channel_estimator_0, cell_id]
+- [lte_sss_sync_0, cell_id, lte_pbch_decoder_0, cell_id]
+- [lte_sss_sync_0, cell_id, lte_pcfich_decoder_0, cell_id]
+- [pad_source_0, '0', blocks_throttle_0, '0']
+- [sync_lte_rough_symbol_sync_cc_0, '0', lte_pss_sync_0, '0']
+
+metadata:
+  file_format: 1
