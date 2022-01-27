@@ -309,6 +309,24 @@ blocks:
     coordinate: [296, 892.0]
     rotation: 0
     state: true
+- name: pad_sink_2
+  id: pad_sink
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    label: PBCH_Decoder_out
+    num_streams: '1'
+    optional: 'False'
+    type: float
+    vlen: '120'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [888, 548.0]
+    rotation: 0
+    state: true
 - name: pad_source_0
   id: pad_source
   parameters:
@@ -361,6 +379,7 @@ connections:
 - [lte_ofdm_demodulator_0, '0', lte_pbch_decoder_0, '0']
 - [lte_ofdm_demodulator_0, '0', lte_pcfich_decoder_0, '0']
 - [lte_pbch_decoder_0, '0', lte_bch_decoder_0, '0']
+- [lte_pbch_decoder_0, '0', pad_sink_2, '0']
 - [lte_pss_sync_0, '0', lte_cp_ffo_sync_0, '0']
 - [lte_pss_sync_0, '0', pad_sink_0, '0']
 - [lte_sss_sync_0, '0', lte_ofdm_demodulator_0, '0']
