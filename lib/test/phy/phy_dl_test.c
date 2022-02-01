@@ -442,7 +442,7 @@ int main(int argc, char **argv)
     rx_nof_bits += (acks[1] ? ue_dl.pdsch_cfg.grant.mcs[1].tbs : 0);
     }
 
-  printf("Finished! The UE failed decoding %d of %d transport blocks.\n", count_failures, count_tbs);
+  printf("Finished! The UE failed to decode %d of %d transport blocks.\n", count_failures, count_tbs);
   if (!count_failures)
     {
     ret = SRSLTE_SUCCESS;
