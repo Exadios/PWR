@@ -1,14 +1,18 @@
       Using meson to build
 
-~/Work/PWR$ meson setup --cross-file x86.build out-x86
+~/Work/PWR$ meson setup --cross-file x86.build out-x86 --buildtype release
 cd out-x86
 ninja -j4
 
       and
 
-~/Work/PWR$ meson setup --cross-file pi.build out-pi
+~/Work/PWR$ meson setup --cross-file pi.build out-pi --buildtype release
 cd out-pi
 ninja -j4
 
 
+       For a debug build
 
+~/Work/PWR$ meson setup --cross-file x86.build out-x86-debug --buildtype debug
+cd out-x86-debug
+ninja -j4

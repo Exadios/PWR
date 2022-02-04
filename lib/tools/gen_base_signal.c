@@ -55,7 +55,7 @@ uint16_t rnti = 0x1234;
 bool print_dci_table;
 uint32_t mcs = 28;
 int outf = 1; /* Point to stdout */
-FILE *outd = NULL;
+FILE *outd;
 
 //------------------------------------------------------------------------------
 void usage(char *prog)
@@ -68,12 +68,15 @@ void usage(char *prog)
   printf("\t-d Print DCI table [Default %s]\n", print_dci_table ? "yes" : "no");
   printf("\t-x MIMO Type: single, diversity, cdd, multiplex [Default %s]\n", srslte_mimotype2str(mimo_type));
   printf("\t-m mcs [Default %d]\n", mcs);
+  printf("\t-o <output file> (Default stdout]");
   printf("\t-v [set srslte_verbose to debug, default none]\n");
   }
 
+//------------------------------------------------------------------------------
 void parse_args(int argc, char **argv)
   {
   int opt;
+  outd = stdout;
   while ((opt = getopt(argc, argv, "cfpndvsxmo")) != -1)
     {
     switch (opt)
