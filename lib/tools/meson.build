@@ -21,3 +21,10 @@ cell_track = executable('cell_track', 'cell_track.c',
                         dependencies : extralibs,
                         include_directories : [ lib_includes, soapy_includes ]
                        )
+
+gen_base_signal = executable('gen_base_signal', 'gen_base_signal.c',
+                             include_directories : lib_includes,
+                             link_with : srslibs,
+                             dependencies : extralibs,
+                             include_directories : [ lib_includes, soapy_includes ],
+                            )
