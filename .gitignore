@@ -15,6 +15,7 @@
 # Meson build directories
 out/
 out-x86/
+out-x86-debug/
 out-arm/
 out-pi/
 build/
