@@ -1,4 +1,7 @@
-project('PWR', ['cpp', 'c'], version : '0.0.0', license : 'GPL')
+project('PWR', ['cpp', 'c'],
+        version : '0.0.0',
+        license : 'GPL',
+        meson_version : '1.0.1')
 
 cpp_compiler = meson.get_compiler('cpp')
 c_compiler   = meson.get_compiler('c')

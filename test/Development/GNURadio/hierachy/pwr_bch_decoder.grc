@@ -1,0 +1,471 @@
+options:
+  parameters:
+    author: pfb
+    category: pwr
+    cmake_opt: ''
+    comment: ''
+    copyright: ''
+    description: GR 3.8 hier block for LTE BCH decoding
+    gen_cmake: 'On'
+    gen_linking: dynamic
+    generate_options: hb
+    hier_block_src_path: '.:'
+    id: pwr_bch_decoder
+    max_nouts: '0'
+    output_language: python
+    placement: (0,0)
+    qt_qss_theme: ''
+    realtime_scheduling: ''
+    run: 'True'
+    run_command: '{python} -u {filename}'
+    run_options: prompt
+    sizing_mode: fixed
+    thread_safe_setters: ''
+    title: BCH Decoder
+    window_size: 1280,1024
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [8, 8]
+    rotation: 0
+    state: enabled
+
+blocks:
+- name: data_len
+  id: variable
+  parameters:
+    comment: ''
+    value: '24'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [296, 20.0]
+    rotation: 0
+    state: enabled
+- name: final_xor1
+  id: variable
+  parameters:
+    comment: ''
+    value: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [384, 20.0]
+    rotation: 0
+    state: enabled
+- name: final_xor2
+  id: variable
+  parameters:
+    comment: ''
+    value: '65535'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [480, 20.0]
+    rotation: 0
+    state: enabled
+- name: final_xor4
+  id: variable
+  parameters:
+    comment: ''
+    value: '21845'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [584, 20.0]
+    rotation: 0
+    state: enabled
+- name: samp_rate
+  id: variable
+  parameters:
+    comment: ''
+    value: '32000'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [184, 12]
+    rotation: 0
+    state: enabled
+- name: bch_blocks_interleave_0
+  id: blocks_interleave
+  parameters:
+    affinity: ''
+    alias: ''
+    blocksize: '1'
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    num_streams: '3'
+    type: float
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [904, 176.0]
+    rotation: 0
+    state: enabled
+- name: bch_blocks_null_sink_0
+  id: blocks_null_sink
+  parameters:
+    affinity: ''
+    alias: ''
+    bus_structure_sink: '[[0,],]'
+    comment: ''
+    num_inputs: '1'
+    type: byte
+    vlen: data_len
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [664, 492.0]
+    rotation: 180
+    state: enabled
+- name: bch_blocks_null_sink_1
+  id: blocks_null_sink
+  parameters:
+    affinity: ''
+    alias: ''
+    bus_structure_sink: '[[0,],]'
+    comment: ''
+    num_inputs: '1'
+    type: byte
+    vlen: data_len
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [664, 420.0]
+    rotation: 180
+    state: enabled
+- name: bch_lte_bch_crc_check_ant_chooser_bb_0
+  id: lte_bch_crc_check_ant_chooser_bb
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [416, 424.0]
+    rotation: 180
+    state: enabled
+- name: bch_lte_bch_viterbi_vfvb_0
+  id: lte_bch_viterbi_vfvb
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1064, 440.0]
+    rotation: 180
+    state: enabled
+- name: bch_lte_crc_check_vbvb_0
+  id: lte_crc_check_vbvb
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    data_len: data_len
+    final_xor: final_xor1
+    maxoutbuf: '0'
+    minoutbuf: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [840, 496.0]
+    rotation: 180
+    state: enabled
+- name: bch_lte_crc_check_vbvb_1
+  id: lte_crc_check_vbvb
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    data_len: data_len
+    final_xor: final_xor2
+    maxoutbuf: '0'
+    minoutbuf: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [840, 424.0]
+    rotation: 180
+    state: enabled
+- name: bch_lte_crc_check_vbvb_2
+  id: lte_crc_check_vbvb
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    data_len: data_len
+    final_xor: final_xor4
+    maxoutbuf: '0'
+    minoutbuf: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [840, 352.0]
+    rotation: 180
+    state: enabled
+- name: bch_lte_subblock_deinterleaver_vfvf_0
+  id: lte_subblock_deinterleaver_vfvf
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    items_per_group: '1'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    num_groups: '40'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [520, 124.0]
+    rotation: 0
+    state: enabled
+- name: bch_lte_subblock_deinterleaver_vfvf_1
+  id: lte_subblock_deinterleaver_vfvf
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    items_per_group: '1'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    num_groups: '40'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [520, 196.0]
+    rotation: 0
+    state: enabled
+- name: bch_lte_subblock_deinterleaver_vfvf_2
+  id: lte_subblock_deinterleaver_vfvf
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    items_per_group: '1'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    num_groups: '40'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [520, 268.0]
+    rotation: 0
+    state: enabled
+- name: bch_stream_to_streams_0
+  id: blocks_stream_to_streams
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    num_streams: '3'
+    type: float
+    vlen: '40'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [344, 176.0]
+    rotation: 0
+    state: enabled
+- name: bch_stream_to_vector_0
+  id: blocks_stream_to_vector
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    num_items: '120'
+    type: float
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1024, 208.0]
+    rotation: 0
+    state: enabled
+- name: bch_vector_to_stream_0
+  id: blocks_vector_to_stream
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    num_items: '3'
+    type: float
+    vlen: '40'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [176, 196.0]
+    rotation: 0
+    state: enabled
+- name: bch_vector_to_stream_1
+  id: blocks_vector_to_stream
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    num_items: '40'
+    type: float
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [744, 176.0]
+    rotation: 0
+    state: enabled
+- name: bch_vector_to_stream_2
+  id: blocks_vector_to_stream
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    num_items: '40'
+    type: float
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [744, 208.0]
+    rotation: 0
+    state: enabled
+- name: bch_vector_to_stream_3
+  id: blocks_vector_to_stream
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    num_items: '40'
+    type: float
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [744, 240.0]
+    rotation: 0
+    state: enabled
+- name: pad_sink_0
+  id: pad_sink
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    label: mib
+    num_streams: '1'
+    optional: 'False'
+    type: byte
+    vlen: '24'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [256, 340.0]
+    rotation: 180
+    state: enabled
+- name: pad_sink_1
+  id: pad_sink
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    label: N_ant
+    num_streams: '1'
+    optional: 'False'
+    type: byte
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [264, 452.0]
+    rotation: 180
+    state: enabled
+- name: pad_source
+  id: pad_source
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    label: in
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    num_streams: '1'
+    optional: 'False'
+    type: float
+    vlen: '120'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [16, 196.0]
+    rotation: 0
+    state: enabled
+
+connections:
+- [bch_blocks_interleave_0, '0', bch_stream_to_vector_0, '0']
+- [bch_lte_bch_crc_check_ant_chooser_bb_0, '0', pad_sink_1, '0']
+- [bch_lte_bch_viterbi_vfvb_0, '0', bch_lte_crc_check_vbvb_0, '0']
+- [bch_lte_bch_viterbi_vfvb_0, '0', bch_lte_crc_check_vbvb_1, '0']
+- [bch_lte_bch_viterbi_vfvb_0, '0', bch_lte_crc_check_vbvb_2, '0']
+- [bch_lte_crc_check_vbvb_0, '0', bch_blocks_null_sink_0, '0']
+- [bch_lte_crc_check_vbvb_0, '1', bch_lte_bch_crc_check_ant_chooser_bb_0, '2']
+- [bch_lte_crc_check_vbvb_1, '0', bch_blocks_null_sink_1, '0']
+- [bch_lte_crc_check_vbvb_1, '1', bch_lte_bch_crc_check_ant_chooser_bb_0, '1']
+- [bch_lte_crc_check_vbvb_2, '0', pad_sink_0, '0']
+- [bch_lte_crc_check_vbvb_2, '1', bch_lte_bch_crc_check_ant_chooser_bb_0, '0']
+- [bch_lte_subblock_deinterleaver_vfvf_0, '0', bch_vector_to_stream_1, '0']
+- [bch_lte_subblock_deinterleaver_vfvf_1, '0', bch_vector_to_stream_2, '0']
+- [bch_lte_subblock_deinterleaver_vfvf_2, '0', bch_vector_to_stream_3, '0']
+- [bch_stream_to_streams_0, '0', bch_lte_subblock_deinterleaver_vfvf_0, '0']
+- [bch_stream_to_streams_0, '1', bch_lte_subblock_deinterleaver_vfvf_1, '0']
+- [bch_stream_to_streams_0, '2', bch_lte_subblock_deinterleaver_vfvf_2, '0']
+- [bch_stream_to_vector_0, '0', bch_lte_bch_viterbi_vfvb_0, '0']
+- [bch_vector_to_stream_0, '0', bch_stream_to_streams_0, '0']
+- [bch_vector_to_stream_1, '0', bch_blocks_interleave_0, '0']
+- [bch_vector_to_stream_2, '0', bch_blocks_interleave_0, '1']
+- [bch_vector_to_stream_3, '0', bch_blocks_interleave_0, '2']
+- [pad_source, '0', bch_vector_to_stream_0, '0']
+
+metadata:
+  file_format: 1

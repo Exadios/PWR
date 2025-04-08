@@ -1,0 +1,195 @@
+options:
+  parameters:
+    author: pfb
+    category: '[GRC Hier Blocks]'
+    cmake_opt: ''
+    comment: ''
+    copyright: ''
+    description: ''
+    gen_cmake: 'On'
+    gen_linking: dynamic
+    generate_options: qt_gui
+    hier_block_src_path: '.:'
+    id: SSS_Sync
+    max_nouts: '0'
+    output_language: python
+    placement: (0,0)
+    qt_qss_theme: ''
+    realtime_scheduling: ''
+    run: 'True'
+    run_command: '{python} -u {filename}'
+    run_options: prompt
+    sizing_mode: fixed
+    thread_safe_setters: ''
+    title: SSS Sync
+    window_size: ''
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [8, 8]
+    rotation: 0
+    state: enabled
+
+blocks:
+- name: samp_rate
+  id: variable
+  parameters:
+    comment: ''
+    value: '1920000'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [184, 12]
+    rotation: 0
+    state: enabled
+- name: blocks_file_descriptor_sink_0
+  id: blocks_file_descriptor_sink
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    fd: '1'
+    type: complex
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1032, 220.0]
+    rotation: 0
+    state: true
+- name: blocks_file_descriptor_source_0
+  id: blocks_file_descriptor_source
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    fd: '0'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    repeat: 'True'
+    type: complex
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [48, 196.0]
+    rotation: 0
+    state: true
+- name: blocks_message_debug_0
+  id: blocks_message_debug
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [992, 360.0]
+    rotation: 0
+    state: true
+- name: fft_vxx_0
+  id: fft_vxx
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    fft_size: '2048'
+    forward: 'True'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    nthreads: '1'
+    shift: 'True'
+    type: complex
+    window: window.blackmanharris(1024)
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [328, 340.0]
+    rotation: 0
+    state: true
+- name: lte_extract_subcarriers_vcvc_0
+  id: lte_extract_subcarriers_vcvc
+  parameters:
+    N_rb_dl: '6'
+    affinity: ''
+    alias: ''
+    comment: ''
+    fftl: '2048'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [552, 364.0]
+    rotation: 0
+    state: true
+- name: lte_sss_calculator_vcm_0
+  id: lte_sss_calculator_vcm
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    fftl: '2048'
+    in_key: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    out_key: ''
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [736, 356.0]
+    rotation: 0
+    state: true
+- name: lte_sss_symbol_selector_cvc_0
+  id: lte_sss_symbol_selector_cvc
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    fftl: '2048'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [144, 372.0]
+    rotation: 0
+    state: true
+- name: lte_sss_tagger_cc_0
+  id: lte_sss_tagger_cc
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    fftl: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [864, 208.0]
+    rotation: 0
+    state: true
+
+connections:
+- [blocks_file_descriptor_source_0, '0', lte_sss_symbol_selector_cvc_0, '0']
+- [blocks_file_descriptor_source_0, '0', lte_sss_tagger_cc_0, '0']
+- [fft_vxx_0, '0', lte_extract_subcarriers_vcvc_0, '0']
+- [lte_extract_subcarriers_vcvc_0, '0', lte_sss_calculator_vcm_0, '0']
+- [lte_sss_calculator_vcm_0, cell_id, blocks_message_debug_0, print_pdu]
+- [lte_sss_calculator_vcm_0, frame_start, lte_sss_tagger_cc_0, frame_start]
+- [lte_sss_symbol_selector_cvc_0, '0', fft_vxx_0, '0']
+- [lte_sss_tagger_cc_0, '0', blocks_file_descriptor_sink_0, '0']
+
+metadata:
+  file_format: 1

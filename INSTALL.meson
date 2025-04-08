@@ -6,7 +6,13 @@ ninja -j4
 
       and
 
-~/Work/PWR$ meson setup --cross-file pi.build out-pi --buildtype release
+~/Work/PWR$ meson setup --cross-file pi2.build out-pi2 --buildtype release
+cd out-pi
+ninja -j4
+
+      and
+
+~/Work/PWR$ meson setup --cross-file pi3.build out-pi3 --buildtype release
 cd out-pi
 ninja -j4
 
