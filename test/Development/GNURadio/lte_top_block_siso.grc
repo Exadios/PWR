@@ -1,28 +1,21 @@
 options:
   parameters:
+    alias: ''
     author: Johannes Demel
+    catch_exceptions: 'True'
     category: Custom
-    cmake_opt: ''
     comment: ''
     copyright: ''
     description: ''
-    gen_cmake: 'On'
     gen_linking: dynamic
-    generate_options: qt_gui
+    generate_options: hb
+    generator_class_name: PythonHierBlockNoGuiGenerator
+    generator_module: gnuradio.grc.workflows.python_hb_nogui
     hier_block_src_path: '.:'
     id: lte_top_block_siso
-    max_nouts: '0'
     output_language: python
-    placement: (0,0)
-    qt_qss_theme: ''
-    realtime_scheduling: ''
-    run: 'True'
-    run_command: '{python} -u {filename}'
-    run_options: prompt
-    sizing_mode: fixed
     thread_safe_setters: ''
     title: LTE top level flowgraph SISO
-    window_size: 1920, 1080
   states:
     bus_sink: false
     bus_source: false
@@ -116,7 +109,22 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1040, 600.0]
+    coordinate: [1040, 352.0]
+    rotation: 0
+    state: disabled
+- name: blocks_message_debug_0
+  id: blocks_message_debug
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    en_uvec: 'True'
+    log_level: info
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [480, 680.0]
     rotation: 0
     state: enabled
 - name: blocks_throttle_0
@@ -135,9 +143,9 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [624, 428.0]
+    coordinate: [624, 172.0]
     rotation: 0
-    state: true
+    state: enabled
 - name: lte_bch_decoder_0
   id: lte_bch_decoder
   parameters:
@@ -150,9 +158,9 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [896, 648.0]
+    coordinate: [896, 400.0]
     rotation: 0
-    state: enabled
+    state: disabled
 - name: lte_channel_estimator_0
   id: lte_channel_estimator
   parameters:
@@ -168,9 +176,9 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [512, 644.0]
+    coordinate: [512, 396.0]
     rotation: 0
-    state: enabled
+    state: disabled
 - name: lte_cp_ffo_sync_0
   id: lte_cp_ffo_sync
   parameters:
@@ -184,7 +192,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [80, 532.0]
+    coordinate: [80, 284.0]
     rotation: 180
     state: enabled
 - name: lte_ofdm_demodulator_0
@@ -202,9 +210,9 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [288, 596.0]
+    coordinate: [288, 348.0]
     rotation: 0
-    state: enabled
+    state: disabled
 - name: lte_pbch_decoder_0
   id: lte_pbch_decoder
   parameters:
@@ -218,9 +226,9 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [736, 616.0]
+    coordinate: [736, 368.0]
     rotation: 0
-    state: enabled
+    state: disabled
 - name: lte_pcfich_decoder_0
   id: lte_pcfich_decoder
   parameters:
@@ -235,9 +243,9 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [736, 776.0]
+    coordinate: [736, 528.0]
     rotation: 0
-    state: enabled
+    state: disabled
 - name: lte_pss_sync_0
   id: lte_pss_sync
   parameters:
@@ -251,7 +259,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [328, 532.0]
+    coordinate: [336, 284.0]
     rotation: 180
     state: enabled
 - name: lte_sss_sync_0
@@ -270,27 +278,9 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [64, 636.0]
+    coordinate: [64, 388.0]
     rotation: 0
     state: enabled
-- name: pad_sink_0
-  id: pad_sink
-  parameters:
-    affinity: ''
-    alias: ''
-    comment: ''
-    label: PSS_sync
-    num_streams: '1'
-    optional: 'False'
-    type: complex
-    vlen: '1'
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [328, 476.0]
-    rotation: 0
-    state: true
 - name: pad_sink_1
   id: pad_sink
   parameters:
@@ -299,34 +289,88 @@ blocks:
     comment: ''
     label: SSS_sync
     num_streams: '1'
-    optional: 'False'
+    optional: 'True'
     type: complex
     vlen: '1'
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [296, 892.0]
+    coordinate: [304, 636.0]
     rotation: 0
-    state: true
-- name: pad_sink_2
+    state: enabled
+- name: pad_sink_1_0
   id: pad_sink
   parameters:
     affinity: ''
     alias: ''
     comment: ''
-    label: PBCH_Decoder_out
+    label: Channel_Estimator_1
     num_streams: '1'
     optional: 'False'
-    type: float
-    vlen: '120'
+    type: complex
+    vlen: '600'
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [888, 548.0]
+    coordinate: [912, 612.0]
     rotation: 0
-    state: true
+    state: disabled
+- name: pad_sink_1_0_0
+  id: pad_sink
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    label: Channel_Estimator_0
+    num_streams: '1'
+    optional: 'False'
+    type: complex
+    vlen: '600'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [912, 540.0]
+    rotation: 0
+    state: disabled
+- name: pad_sink_1_1
+  id: pad_sink
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    label: OFDM Demod
+    num_streams: '1'
+    optional: 'False'
+    type: complex
+    vlen: '600'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [480, 580.0]
+    rotation: 0
+    state: disabled
+- name: pad_sink_1_2
+  id: pad_sink
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    label: PSS_sync
+    num_streams: '1'
+    optional: 'True'
+    type: complex
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [328, 212.0]
+    rotation: 0
+    state: enabled
 - name: pad_source_0
   id: pad_source
   parameters:
@@ -344,9 +388,9 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [80, 428.0]
+    coordinate: [80, 172.0]
     rotation: 0
-    state: true
+    state: enabled
 - name: sync_lte_rough_symbol_sync_cc_0
   id: lte_rough_symbol_sync_cc
   parameters:
@@ -361,7 +405,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [528, 524.0]
+    coordinate: [528, 276.0]
     rotation: 180
     state: enabled
 
@@ -372,18 +416,21 @@ connections:
 - [lte_bch_decoder_0, '1', MIB, '1']
 - [lte_channel_estimator_0, '0', lte_pbch_decoder_0, '1']
 - [lte_channel_estimator_0, '0', lte_pcfich_decoder_0, '1']
+- [lte_channel_estimator_0, '0', pad_sink_1_0_0, '0']
 - [lte_channel_estimator_0, '1', lte_pbch_decoder_0, '2']
 - [lte_channel_estimator_0, '1', lte_pcfich_decoder_0, '2']
+- [lte_channel_estimator_0, '1', pad_sink_1_0, '0']
 - [lte_cp_ffo_sync_0, '0', lte_sss_sync_0, '0']
 - [lte_ofdm_demodulator_0, '0', lte_channel_estimator_0, '0']
 - [lte_ofdm_demodulator_0, '0', lte_pbch_decoder_0, '0']
 - [lte_ofdm_demodulator_0, '0', lte_pcfich_decoder_0, '0']
+- [lte_ofdm_demodulator_0, '0', pad_sink_1_1, '0']
 - [lte_pbch_decoder_0, '0', lte_bch_decoder_0, '0']
-- [lte_pbch_decoder_0, '0', pad_sink_2, '0']
 - [lte_pss_sync_0, '0', lte_cp_ffo_sync_0, '0']
-- [lte_pss_sync_0, '0', pad_sink_0, '0']
+- [lte_pss_sync_0, '0', pad_sink_1_2, '0']
 - [lte_sss_sync_0, '0', lte_ofdm_demodulator_0, '0']
 - [lte_sss_sync_0, '0', pad_sink_1, '0']
+- [lte_sss_sync_0, cell_id, blocks_message_debug_0, print]
 - [lte_sss_sync_0, cell_id, lte_channel_estimator_0, cell_id]
 - [lte_sss_sync_0, cell_id, lte_pbch_decoder_0, cell_id]
 - [lte_sss_sync_0, cell_id, lte_pcfich_decoder_0, cell_id]
@@ -392,3 +439,4 @@ connections:
 
 metadata:
   file_format: 1
+  grc_version: v3.11.0.0git-944-g884e8f6d

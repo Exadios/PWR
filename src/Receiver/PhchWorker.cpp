@@ -2,7 +2,7 @@
  * \section COPYRIGHT
  *
  * Passive Weather Radar (PWR).
- * Copyright (C) 2010-2021 Peter F Bradshaw
+ * Copyright (C) 2010-2025 Peter F Bradshaw
  * A detailed list of copyright holders can be found in the file "AUTHORS".
  *
  * \section LICENSE
@@ -24,7 +24,7 @@
 
 #include <unistd.h>
 #include <string.h>
-#include "srsue/hdr/phy/phch_worker.h"
+#include "srsue/hdr/phy/PhchWorker.h"
 #include "srslte/srslte.h"
 #include "srslte/interfaces/ue_interfaces.h"
 
@@ -39,7 +39,7 @@
 #include "srsgui/srsgui.h"
 #include <semaphore.h>
 
-void init_plots(srsue::phch_worker *worker);
+void init_plots(srsue::PhchWorker *worker);
 pthread_t plot_thread;
 sem_t plot_sem;
 static int plot_worker_id = -1;
@@ -55,7 +55,7 @@ namespace srsue
 
 
 //------------------------------------------------------------------------------
-phch_worker::phch_worker() : tr_exec(10240)
+PhchWorker::PhchWorker() : tr_exec(10240)
   {
   phy = NULL;
   chest_loop = NULL;
@@ -75,7 +75,7 @@ phch_worker::phch_worker() : tr_exec(10240)
 
 
 //------------------------------------------------------------------------------
-phch_worker::~phch_worker()
+PhchWorker::~PhchWorker()
   {
   if (mem_initiated)
     {
@@ -95,7 +95,7 @@ phch_worker::~phch_worker()
   }
 
 //------------------------------------------------------------------------------
-void phch_worker::reset()
+void PhchWorker::reset()
   {
   pthread_mutex_lock(&mutex);
   bzero(&dl_metrics, sizeof(dl_metrics_t));
@@ -117,19 +117,22 @@ void phch_worker::reset()
   }
 
 //------------------------------------------------------------------------------
-void phch_worker::enable_pdsch_coworker()
+void PhchWorker::enable_pdsch_coworker()
   {
   srslte_pdsch_enable_coworker(&ue_dl.pdsch);
   }
 
 //------------------------------------------------------------------------------
-void phch_worker::set_common(phch_common* phy_)
+void PhchWorker::set_common(phch_common* phy_)
   {
   phy = phy_;
   }
 
 //------------------------------------------------------------------------------
-bool phch_worker::init(uint32_t max_prb, srslte::log *log_h, srslte::log *log_phy_lib_h, chest_feedback_itf *chest_loop)
+bool PhchWorker::init(uint32_t max_prb,
+                      srslte::log* log_h,
+                      srslte::log* log_phy_lib_h,
+                      ChestFeedbackItf* chest_loop)
   {
   this->log_h = log_h;
   this->log_phy_lib_h =  log_phy_lib_h;
@@ -177,7 +180,7 @@ bool phch_worker::init(uint32_t max_prb, srslte::log *log_h, srslte::log *log_ph
   }
 
 //------------------------------------------------------------------------------
-bool phch_worker::set_cell(srslte_cell_t cell_)
+bool PhchWorker::set_cell(srslte_cell_t cell_)
   {
   bool ret = false;
   pthread_mutex_lock(&mutex);
@@ -212,13 +215,13 @@ unlock:
   return ret;
   }
 
-cf_t* phch_worker::get_buffer(uint32_t antenna_idx)
+cf_t* PhchWorker::get_buffer(uint32_t antenna_idx)
   {
   return signal_buffer[antenna_idx];
   }
 
 //------------------------------------------------------------------------------
-void phch_worker::set_tti(uint32_t tti_, uint32_t tx_worker_cnt)
+void PhchWorker::set_tti(uint32_t tti_, uint32_t tx_worker_cnt)
   {
   tti    = tti_;
   tx_tti = tx_worker_cnt;
@@ -230,20 +233,20 @@ void phch_worker::set_tti(uint32_t tti_, uint32_t tx_worker_cnt)
   }
 
 //------------------------------------------------------------------------------
-void phch_worker::set_prach(cf_t *prach_ptr, float prach_power)
+void PhchWorker::set_prach(cf_t *prach_ptr, float prach_power)
   {
   this->prach_ptr   = prach_ptr;
   this->prach_power = prach_power;
   }
 
 //------------------------------------------------------------------------------
-void phch_worker::set_cfo(float cfo_)
+void PhchWorker::set_cfo(float cfo_)
   {
   cfo = cfo_;
   }
 
 //------------------------------------------------------------------------------
-void phch_worker::set_crnti(uint16_t rnti)
+void PhchWorker::set_crnti(uint16_t rnti)
   {
   srslte_ue_dl_set_rnti(&ue_dl, rnti);
   srslte_ue_ul_set_rnti(&ue_ul, rnti);
@@ -251,38 +254,38 @@ void phch_worker::set_crnti(uint16_t rnti)
   }
 
 //------------------------------------------------------------------------------
-float phch_worker::get_ref_cfo()
+float PhchWorker::get_ref_cfo()
   {
   return srslte_chest_dl_get_cfo(&ue_dl.chest);
   }
 
 //------------------------------------------------------------------------------
-float phch_worker::get_snr()
+float PhchWorker::get_snr()
   {
   return 10*log10(srslte_chest_dl_get_snr(&ue_dl.chest));
   }
 
 //------------------------------------------------------------------------------
-float phch_worker::get_rsrp()
+float PhchWorker::get_rsrp()
   {
   return 10*log10(srslte_chest_dl_get_rsrp(&ue_dl.chest));
   }
 
 //------------------------------------------------------------------------------
-float phch_worker::get_noise()
+float PhchWorker::get_noise()
   {
   return 10*log10(srslte_chest_dl_get_noise_estimate(&ue_dl.chest));
   }
 
 
 //------------------------------------------------------------------------------
-float phch_worker::get_cfo()
+float PhchWorker::get_cfo()
   {
   return cfo;
   }
 
 //------------------------------------------------------------------------------
-void phch_worker::work_imp()
+void PhchWorker::work_imp()
   {
   if (!cell_initiated)
     {
@@ -616,7 +619,7 @@ void phch_worker::work_imp()
   }
 
 //------------------------------------------------------------------------------
-void phch_worker::compute_ri(uint8_t *ri, uint8_t *pmi, float *sinr)
+void PhchWorker::compute_ri(uint8_t *ri, uint8_t *pmi, float *sinr)
   {
   if (phy->config->dedicated.ant_info.explicit_value().tx_mode == asn1::rrc::ant_info_ded_s::tx_mode_e_::tm3)
     {
@@ -653,7 +656,7 @@ void phch_worker::compute_ri(uint8_t *ri, uint8_t *pmi, float *sinr)
 
 
 //------------------------------------------------------------------------------
-bool phch_worker::extract_fft_and_pdcch_llr(subframe_cfg_t sf_cfg)
+bool PhchWorker::extract_fft_and_pdcch_llr(subframe_cfg_t sf_cfg)
   {
   bool decode_pdcch = true;
 
@@ -728,7 +731,7 @@ bool phch_worker::extract_fft_and_pdcch_llr(subframe_cfg_t sf_cfg)
 /********************* Downlink processing functions ****************************/
 
 //------------------------------------------------------------------------------
-bool phch_worker::decode_pdcch_dl(srsue::mac_interface_phy::mac_grant_t* grant)
+bool PhchWorker::decode_pdcch_dl(srsue::mac_interface_phy::mac_grant_t* grant)
   {
   char timestr[64];
   timestr[0]='\0';
@@ -818,7 +821,7 @@ bool phch_worker::decode_pdcch_dl(srsue::mac_interface_phy::mac_grant_t* grant)
   }
 
 //------------------------------------------------------------------------------
-int phch_worker::decode_pdsch(srslte_ra_dl_grant_t *grant, uint8_t *payload[SRSLTE_MAX_CODEWORDS],
+int PhchWorker::decode_pdsch(srslte_ra_dl_grant_t *grant, uint8_t *payload[SRSLTE_MAX_CODEWORDS],
                               srslte_softbuffer_rx_t *softbuffers[SRSLTE_MAX_CODEWORDS],
                               int rv[SRSLTE_MAX_CODEWORDS],
                               uint16_t rnti, uint32_t harq_pid, bool acks[SRSLTE_MAX_CODEWORDS])
@@ -1019,7 +1022,7 @@ int phch_worker::decode_pdsch(srslte_ra_dl_grant_t *grant, uint8_t *payload[SRSL
   }
 
 //------------------------------------------------------------------------------
-bool phch_worker::decode_pmch(srslte_ra_dl_grant_t *grant, uint8_t *payload,
+bool PhchWorker::decode_pmch(srslte_ra_dl_grant_t *grant, uint8_t *payload,
                               srslte_softbuffer_rx_t* softbuffer, uint16_t mbsfn_area_id)
   {
   char timestr[64];
@@ -1095,7 +1098,7 @@ bool phch_worker::decode_pmch(srslte_ra_dl_grant_t *grant, uint8_t *payload,
   }
 
 //------------------------------------------------------------------------------
-bool phch_worker::decode_phich(bool *ack)
+bool PhchWorker::decode_phich(bool *ack)
   {
   uint32_t I_lowest, n_dmrs;
   if (phy->get_pending_ack(tti, &I_lowest, &n_dmrs))
@@ -1120,7 +1123,7 @@ bool phch_worker::decode_phich(bool *ack)
 /********************* Uplink processing functions ****************************/
 
 //------------------------------------------------------------------------------
-bool phch_worker::decode_pdcch_ul(mac_interface_phy::mac_grant_t* grant)
+bool PhchWorker::decode_pdcch_ul(mac_interface_phy::mac_grant_t* grant)
   {
   char timestr[64];
   timestr[0]='\0';
@@ -1242,14 +1245,14 @@ bool phch_worker::decode_pdcch_ul(mac_interface_phy::mac_grant_t* grant)
   }
 
 //------------------------------------------------------------------------------
-void phch_worker::reset_uci()
+void PhchWorker::reset_uci()
   {
   ZERO_OBJECT(uci_data);
   ZERO_OBJECT(cqi_report);
   }
 
 //------------------------------------------------------------------------------
-void phch_worker::set_uci_ack(bool ack[SRSLTE_MAX_CODEWORDS], bool tb_en[SRSLTE_MAX_CODEWORDS])
+void PhchWorker::set_uci_ack(bool ack[SRSLTE_MAX_CODEWORDS], bool tb_en[SRSLTE_MAX_CODEWORDS])
   {
   /* Map ACK according to 3GPP 36.212 clause 5.2.3.1 */
   uint32_t nof_ack = 0;
@@ -1265,7 +1268,7 @@ void phch_worker::set_uci_ack(bool ack[SRSLTE_MAX_CODEWORDS], bool tb_en[SRSLTE_
   }
 
 //------------------------------------------------------------------------------
-void phch_worker::set_uci_sr()
+void PhchWorker::set_uci_sr()
   {
   uci_data.scheduling_request = false;
   if (phy->sr_enabled && sr_configured)
@@ -1283,7 +1286,7 @@ void phch_worker::set_uci_sr()
   }
 
 //------------------------------------------------------------------------------
-void phch_worker::set_uci_periodic_cqi()
+void PhchWorker::set_uci_periodic_cqi()
   {
   int cqi_fixed     = phy->args->cqi_fixed;
   int cqi_max       = phy->args->cqi_max;
@@ -1349,7 +1352,7 @@ void phch_worker::set_uci_periodic_cqi()
   }
 
 //------------------------------------------------------------------------------
-void phch_worker::set_uci_aperiodic_cqi()
+void PhchWorker::set_uci_aperiodic_cqi()
   {
   float sinr_db = ue_dl.sinr[phy->last_ri % SRSLTE_MAX_LAYERS][phy->last_pmi%SRSLTE_MAX_CODEBOOKS];
 
@@ -1485,7 +1488,7 @@ void phch_worker::set_uci_aperiodic_cqi()
   }
 
 //------------------------------------------------------------------------------
-bool phch_worker::srs_is_ready_to_send()
+bool PhchWorker::srs_is_ready_to_send()
   {
   if (srs_cfg.configured)
     {
@@ -1499,14 +1502,14 @@ bool phch_worker::srs_is_ready_to_send()
   }
 
 //------------------------------------------------------------------------------
-void phch_worker::set_tx_time(srslte_timestamp_t _tx_time, uint32_t next_offset)
+void PhchWorker::set_tx_time(srslte_timestamp_t _tx_time, uint32_t next_offset)
   {
   this->next_offset = next_offset;
   memcpy(&tx_time, &_tx_time, sizeof(srslte_timestamp_t));
   }
 
 //------------------------------------------------------------------------------
-void phch_worker::encode_pusch(srslte_ra_ul_grant_t *grant, uint8_t *payload, uint32_t current_tx_nb,
+void PhchWorker::encode_pusch(srslte_ra_ul_grant_t *grant, uint8_t *payload, uint32_t current_tx_nb,
                                srslte_softbuffer_tx_t* softbuffer, uint32_t rv, uint16_t rnti, bool is_from_rar)
   {
   char timestr[64];
@@ -1591,7 +1594,7 @@ void phch_worker::encode_pusch(srslte_ra_ul_grant_t *grant, uint8_t *payload, ui
   }
 
 //------------------------------------------------------------------------------
-void phch_worker::encode_pucch()
+void PhchWorker::encode_pucch()
   {
   char timestr[64];
   timestr[0]='\0';
@@ -1650,7 +1653,7 @@ void phch_worker::encode_pucch()
   }
 
 //------------------------------------------------------------------------------
-void phch_worker::encode_srs()
+void PhchWorker::encode_srs()
   {
   char timestr[64];
   timestr[0]='\0';
@@ -1673,7 +1676,7 @@ void phch_worker::encode_srs()
   }
 
 //------------------------------------------------------------------------------
-void phch_worker::enable_pregen_signals(bool enabled)
+void PhchWorker::enable_pregen_signals(bool enabled)
   {
   pregen_enabled = enabled;
   if (enabled)
@@ -1685,7 +1688,7 @@ void phch_worker::enable_pregen_signals(bool enabled)
   }
 
 //------------------------------------------------------------------------------
-void phch_worker::set_ul_params(bool pregen_disabled)
+void PhchWorker::set_ul_params(bool pregen_disabled)
   {
   pthread_mutex_lock(&mutex);
 
@@ -1834,7 +1837,7 @@ void phch_worker::set_ul_params(bool pregen_disabled)
   }
 
 //------------------------------------------------------------------------------
-float phch_worker::set_power(float tx_power)
+float PhchWorker::set_power(float tx_power)
   {
   float gain = 0;
   /* Check if UL power control is enabled */
@@ -1852,7 +1855,7 @@ float phch_worker::set_power(float tx_power)
   }
 
 //------------------------------------------------------------------------------
-void phch_worker::start_plot()
+void PhchWorker::start_plot()
   {
 #ifdef ENABLE_GUI
   if (plot_worker_id == -1)
@@ -1866,12 +1869,12 @@ void phch_worker::start_plot()
     log_h->console("Trying to start a plot but already started by worker_id=%d\n", plot_worker_id);
     }
 #else
-  log_h->console("Trying to start a plot but plots are disabled (ENABLE_GUI constant in phch_worker.cc)\n");
+  log_h->console("Trying to start a plot but plots are disabled (ENABLE_GUI constant in PhchWorker.cc)\n");
 #endif
   }
 
 //------------------------------------------------------------------------------
-int phch_worker::read_ce_abs(float *ce_abs, uint32_t tx_antenna, uint32_t rx_antenna)
+int PhchWorker::read_ce_abs(float *ce_abs, uint32_t tx_antenna, uint32_t rx_antenna)
   {
   uint32_t i=0;
   int sz = srslte_symbol_sz(cell.nof_prb);
@@ -1889,7 +1892,7 @@ int phch_worker::read_ce_abs(float *ce_abs, uint32_t tx_antenna, uint32_t rx_ant
   }
 
 //------------------------------------------------------------------------------
-int phch_worker::read_pdsch_d(cf_t* pdsch_d)
+int PhchWorker::read_pdsch_d(cf_t* pdsch_d)
   {
 
   memcpy(pdsch_d, ue_dl.pdsch.d[0], ue_dl.pdsch_cfg.nbits[0].nof_re*sizeof(cf_t));
@@ -1901,7 +1904,7 @@ int phch_worker::read_pdsch_d(cf_t* pdsch_d)
 /**************************** Measurements **************************/
 
 //------------------------------------------------------------------------------
-void phch_worker::update_measurements()
+void PhchWorker::update_measurements()
   {
   float snr_ema_coeff = phy->args->snr_ema_coeff;
   if (chest_done)
@@ -2026,19 +2029,19 @@ void phch_worker::update_measurements()
 /********** Execution time trace function ************/
 
 //------------------------------------------------------------------------------
-void phch_worker::start_trace()
+void PhchWorker::start_trace()
   {
   trace_enabled = true;
   }
 
 //------------------------------------------------------------------------------
-void phch_worker::write_trace(std::string filename)
+void PhchWorker::write_trace(std::string filename)
   {
   tr_exec.writeToBinary(filename + ".exec");
   }
 
 //------------------------------------------------------------------------------
-void phch_worker::tr_log_start()
+void PhchWorker::tr_log_start()
   {
   if (trace_enabled)
     {
@@ -2047,7 +2050,7 @@ void phch_worker::tr_log_start()
   }
 
 //------------------------------------------------------------------------------
-void phch_worker::tr_log_end()
+void PhchWorker::tr_log_end()
   {
   if (trace_enabled)
     {
@@ -2058,13 +2061,6 @@ void phch_worker::tr_log_end()
   }
 
 }
-
-
-
-
-
-
-
 
 /***********************************************************
  *
@@ -2091,7 +2087,7 @@ static float cfo_buffer[CFO_PLOT_LEN];
 //------------------------------------------------------------------------------
 void *plot_thread_run(void *arg)
   {
-  srsue::phch_worker *worker = (srsue::phch_worker*) arg;
+  srsue::PhchWorker *worker = (srsue::PhchWorker*) arg;
 
   sdrgui_init();
   for (uint32_t tx = 0; tx < worker->get_cell_nof_ports(); tx++)
@@ -2168,7 +2164,7 @@ void *plot_thread_run(void *arg)
 
 
 //------------------------------------------------------------------------------
-void init_plots(srsue::phch_worker *worker)
+void init_plots(srsue::PhchWorker *worker)
   {
 
   if (sem_init(&plot_sem, 0, 0))

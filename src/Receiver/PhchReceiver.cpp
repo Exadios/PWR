@@ -2,7 +2,7 @@
  * \section COPYRIGHT
  *
  * Passive Weather Radar (PWR).
- * Copyright (C) 2010-2020 Peter F Bradshaw
+ * Copyright (C) 2010-2025 Peter F Bradshaw
  * A detailed list of copyright holders can be found in the file "AUTHORS".
  *
  * \section LICENSE
@@ -24,7 +24,7 @@
 
 #include <unistd.h>
 #include <algorithm>
-#include "lte.hpp"
+#include "srslte.h"
 #include "common/log.h"
 #include "PhchReceiver.hpp"
 

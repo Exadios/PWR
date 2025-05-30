@@ -42,4 +42,4 @@ libcommon = static_library('common',
                              'tti_sync_cv.cc',
                              'version.c',
                              include_directories : lib_includes,
-                             library_includes : lib_includes)
+                          )

@@ -22,7 +22,11 @@ c_args    = ['-D_GNU_SOURCE',
              '-mfpmath=sse',
              '-mavx',
              '-DLV_HAVE_SSE',
-             '-DLV_HAVE_AVX', ]
+             '-DLV_HAVE_AVX',
+             '-DSOAPY_SDR_API_VERSION=0x00080000',  # Soapy is currently at 0.8
+             '-Wno-unused-variable',
+             '-Wno-comment',
+             ]
 
 [host_machine]
 system     = 'linux'

@@ -29,8 +29,8 @@ namespace asn1 {
 namespace rrc {
 
 /*******************************************************************************
-/*                        Functions for external logging
-/******************************************************************************/
+ *                        Functions for external logging
+ ******************************************************************************/
 
 static log_handler_t log_handler;
 static void*         callback_ctx = NULL;
@@ -82,8 +82,8 @@ inline NumType get_enum_number(NumType* array, uint32_t nof_types, uint32_t enum
 }
 
 /*******************************************************************************
-/*                             Constant Definitions
-/******************************************************************************/
+ *                             Constant Definitions
+ ******************************************************************************/
 
 #define ASN1_RRC_MAX_ACCESS_CAT_MINUS1_R15 63
 #define ASN1_RRC_MAX_ACDC_CAT_R13 16
@@ -270,8 +270,8 @@ inline NumType get_enum_number(NumType* array, uint32_t nof_types, uint32_t enum
 #define ASN1_RRC_MAX_SI_MSG_NB_R13 8
 
 /*******************************************************************************
-/*                              Struct Definitions
-/******************************************************************************/
+ *                              Struct Definitions
+ ******************************************************************************/
 
 // PHICH-Config ::= SEQUENCE
 struct phich_cfg_s {

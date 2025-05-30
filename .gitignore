@@ -15,12 +15,18 @@
 # Meson build directories
 out/
 out-x86/
+out-x86-debug/
 out-arm/
 out-pi/
+out-pi2/
+out-pi3/
 build/
 native/
 pi/
 doc/doxygen
+
+# Various support projects
+Support/
 
 # Autoconfig - automake stuff
 autom4te.cache/

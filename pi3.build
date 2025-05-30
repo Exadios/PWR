@@ -1,0 +1,36 @@
+[properties]
+cpp_args  = [ '-DIS_ARM',
+            ]
+c_args    = ['-D_GNU_SOURCE',
+             '-DHAVE_MBEDTLS',
+             '-funroll-loops', 
+             '-fPIC', 
+             '-O3', 
+             '-fno-trapping-math',
+             '-fno-math-errno',
+             '-march=armv8-a',
+             '-std=c99', 
+             '-DHAVE_NEON',
+             '-DIS_ARM',
+              ]
+
+[host_machine]
+system     = 'linux'
+cpu_family = 'arm'
+cpu        = 'armv8h1'
+endian     = 'little'
+
+[binaries]
+exe_wrapper = 'qemu-aarch64-static'
+#cpp         = '/opt/pi/root/usr/bin/arm-linux-gnueabihf-g++'
+#c           = '/opt/pi/root/usr/bin/arm-linux-gnueabihf-gcc'
+#ar          = '/opt/pi/root/usr/bin/arm-linux-gnueabihf-ar'
+#strip       = '/opt/pi/root/usr/bin/arm-linux-gnueabihf-strip'
+#pkgconfig   = '/opt/pi/root/usr/bin/arm-linux-gnueabihf-pkg-config'
+
+# Use the system's installed cross compiler - aarch6464 (aarch)
+cpp         = 'aarch64-linux-gnu-g++-10'
+c           = 'aarch64-linux-gnu-gcc'
+ar          = 'aarch64-linux-gnu-ar'
+strip       = 'aarch64-linux-gnu-strip'
+pkgconfig   = 'aarch64-linux-gnu-pkg-config'

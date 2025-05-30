@@ -2,7 +2,7 @@
  * \section COPYRIGHT
  *
  * Passive Weather Radar (PWR).
- * Copyright (C) 2010-2020 Peter F Bradshaw
+ * Copyright (C) 2010-2025 Peter F Bradshaw
  * A detailed list of copyright holders can be found in the file "AUTHORS".
  *
  * \section LICENSE
@@ -42,7 +42,7 @@ Phy::Phy()
   }
 
 //------------------------------------------------------------------------------
-void
+bool
 Phy::Init(RadioMulti* radio_handler)
   {
   this->radio_handler = radio_handler;
