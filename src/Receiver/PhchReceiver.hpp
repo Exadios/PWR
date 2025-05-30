@@ -2,7 +2,7 @@
  * \section COPYRIGHT
  *
  * Passive Weather Radar (PWR).
- * Copyright (C) 2010-2020 Peter F Bradshaw
+ * Copyright (C) 2010-2025 Peter F Bradshaw
  * A detailed list of copyright holders can be found in the file "AUTHORS". 
  *
  * \section LICENSE
@@ -24,8 +24,9 @@
 #ifndef __PHCHRECEIVER_HPP__
 #define __PHCHRECEIVER_HPP__
 
-#include "lte.hpp"
-#include "radio/radio_multi.h"
+#include "srslte/srslte.h"
+#include "srslte/radio/radio_multi.h"
+#include "srslte/interfaces/ue_interfaces.h"
 #include "PhchWorker.hpp"
 #include "PhchCommon.hpp"
 
@@ -51,9 +52,9 @@ public:
    * @param worker_common
    * @param n_of_antennas Number of receive streams.
    */
-  void Init(RadioMulti* radio_handler,
-            PhchCommon* worker_common,
-            int n_of_antennas)
+  void Init(srslte::radio_multi* radio_handler,
+            srsue::PhchCommon*   worker_common,
+            int                  n_of_antennas);
 
   /**
    * Stop the object.
@@ -63,7 +64,7 @@ public:
   /**
    * Overflow. Reset and require.
    */
-  RadioOverflow();
+  void RadioOverflow();
 
   /**
    * Finds the strongest cell in a EARFCN. Cell searches are performed at
@@ -72,7 +73,7 @@ public:
    * @return If a cell is found fill out cell and return 1. If no cells
    *         found return 0. If error return -1.
    */
-  CellSearch_t CellSearch(PhyCell_t *cell);
+  srsue::phy_interface_rrc::cell_search_ret_t CellSearch(PhyCell_t *cell);
 
 private:
   /**

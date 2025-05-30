@@ -1,28 +1,21 @@
 options:
   parameters:
+    alias: ''
     author: Johannes Demel
+    catch_exceptions: 'True'
     category: Custom
-    cmake_opt: ''
     comment: ''
     copyright: ''
     description: ''
-    gen_cmake: 'On'
     gen_linking: dynamic
     generate_options: hb
+    generator_class_name: PythonHierBlockNoGuiGenerator
+    generator_module: gnuradio.grc.workflows.python_hb_nogui
     hier_block_src_path: '.:'
     id: lte_top_block_siso
-    max_nouts: '0'
     output_language: python
-    placement: (0,0)
-    qt_qss_theme: ''
-    realtime_scheduling: ''
-    run: 'True'
-    run_command: '{python} -u {filename}'
-    run_options: prompt
-    sizing_mode: fixed
     thread_safe_setters: ''
     title: LTE top level flowgraph SISO
-    window_size: 1920, 1080
   states:
     bus_sink: false
     bus_source: false
@@ -125,6 +118,8 @@ blocks:
     affinity: ''
     alias: ''
     comment: ''
+    en_uvec: 'True'
+    log_level: info
   states:
     bus_sink: false
     bus_source: false
@@ -444,3 +439,4 @@ connections:
 
 metadata:
   file_format: 1
+  grc_version: v3.11.0.0git-944-g884e8f6d

@@ -25,6 +25,9 @@ native/
 pi/
 doc/doxygen
 
+# Various support projects
+Support/
+
 # Autoconfig - automake stuff
 autom4te.cache/
 

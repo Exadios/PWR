@@ -1,0 +1,848 @@
+options:
+  parameters:
+    author: ''
+    catch_exceptions: 'True'
+    category: '[GRC Hier Blocks]'
+    cmake_opt: ''
+    comment: ''
+    copyright: ''
+    description: ''
+    gen_cmake: 'On'
+    gen_linking: dynamic
+    generate_options: hb
+    hier_block_src_path: '.:'
+    id: All_Blocks
+    max_nouts: '0'
+    output_language: python
+    placement: (0,0)
+    qt_qss_theme: ''
+    realtime_scheduling: ''
+    run: 'True'
+    run_command: '{python} -u {filename}'
+    run_options: prompt
+    sizing_mode: fixed
+    thread_safe_setters: ''
+    title: Not titled yet
+    window_size: (1000,1000)
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [8, 8]
+    rotation: 0
+    state: enabled
+
+blocks:
+- name: samp_rate
+  id: variable
+  parameters:
+    comment: ''
+    value: '32000'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [184, 12]
+    rotation: 0
+    state: enabled
+- name: lte_bch_crc_check_ant_chooser_bb_0
+  id: lte_bch_crc_check_ant_chooser_bb
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [336, 32.0]
+    rotation: 0
+    state: true
+- name: lte_bch_decoder_0
+  id: lte_bch_decoder
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [568, 56.0]
+    rotation: 0
+    state: true
+- name: lte_bch_viterbi_vfvb_0
+  id: lte_bch_viterbi_vfvb
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [800, 64.0]
+    rotation: 0
+    state: true
+- name: lte_channel_estimator_0
+  id: lte_channel_estimator
+  parameters:
+    N_rb_dl: '50'
+    affinity: ''
+    alias: ''
+    comment: ''
+    estimator_key: '"slot"'
+    initial_id: '0'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [56, 160.0]
+    rotation: 0
+    state: true
+- name: lte_channel_estimator_vcvc_0
+  id: lte_channel_estimator_vcvc
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    pilot_carriers: ''
+    pilot_symbols: ''
+    rxant: '1'
+    subcarriers: ''
+    tag_key: ''
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [280, 144.0]
+    rotation: 0
+    state: true
+- name: lte_cp_ffo_sync_0
+  id: lte_cp_ffo_sync
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    fftlen: '2048'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [720, 176.0]
+    rotation: 0
+    state: true
+- name: lte_crc_check_vbvb_0
+  id: lte_crc_check_vbvb
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    data_len: ''
+    final_xor: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [504, 168.0]
+    rotation: 0
+    state: true
+- name: lte_descrambler_vfvf_0
+  id: lte_descrambler_vfvf
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    initial_seqs: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    tag_key: ''
+    vlen: ''
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [672, 272.0]
+    rotation: 0
+    state: true
+- name: lte_extract_subcarriers_vcvc_0
+  id: lte_extract_subcarriers_vcvc
+  parameters:
+    N_rb_dl: ''
+    affinity: ''
+    alias: ''
+    comment: ''
+    fftl: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [216, 288.0]
+    rotation: 0
+    state: true
+- name: lte_layer_demapper_vcvc_0
+  id: lte_layer_demapper_vcvc
+  parameters:
+    N_ant: ''
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    style: ''
+    vlen: ''
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [432, 272.0]
+    rotation: 0
+    state: true
+- name: lte_mib_unpack_vbm_0
+  id: lte_mib_unpack_vbm
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [512, 1192.0]
+    rotation: 0
+    state: true
+- name: lte_mimo_pss_coarse_control_0
+  id: lte_mimo_pss_coarse_control
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    rxant: ''
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [456, 408.0]
+    rotation: 0
+    state: true
+- name: lte_mimo_pss_coarse_sync_0
+  id: lte_mimo_pss_coarse_sync
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    rxant: ''
+    syncl: ''
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [664, 392.0]
+    rotation: 0
+    state: true
+- name: lte_mimo_pss_fine_sync_0
+  id: lte_mimo_pss_fine_sync
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    fftl: ''
+    grpdelay: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    rxant: ''
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [944, 392.0]
+    rotation: 0
+    state: true
+- name: lte_mimo_pss_freq_sync_0
+  id: lte_mimo_pss_freq_sync
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    fftl: ''
+    rxant: ''
+    sig: ''
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [24, 536.0]
+    rotation: 0
+    state: true
+- name: lte_mimo_pss_tagger_0
+  id: lte_mimo_pss_tagger
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    fftl: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    rxant: ''
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [248, 504.0]
+    rotation: 0
+    state: true
+- name: lte_mimo_remove_cp_0
+  id: lte_mimo_remove_cp
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    fftl: ''
+    key: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    rxant: ''
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [448, 520.0]
+    rotation: 0
+    state: true
+- name: lte_mimo_sss_calculator_0
+  id: lte_mimo_sss_calculator
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    rxant: ''
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [672, 528.0]
+    rotation: 0
+    state: true
+- name: lte_mimo_sss_symbol_selector_0
+  id: lte_mimo_sss_symbol_selector
+  parameters:
+    N_rb_dl: ''
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    rxant: ''
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [928, 528.0]
+    rotation: 0
+    state: true
+- name: lte_mimo_sss_tagger_0
+  id: lte_mimo_sss_tagger
+  parameters:
+    N_rb_dl: ''
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    rxant: ''
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [88, 688.0]
+    rotation: 0
+    state: true
+- name: lte_ofdm_demodulator_0
+  id: lte_ofdm_demodulator
+  parameters:
+    N_rb_dl: '50'
+    affinity: ''
+    alias: ''
+    comment: ''
+    fftlen: '2048'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    ofdm_key: '"slot"'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [888, 272.0]
+    rotation: 0
+    state: true
+- name: lte_pbch_decoder_0
+  id: lte_pbch_decoder
+  parameters:
+    N_rb_dl: '50'
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [320, 664.0]
+    rotation: 0
+    state: true
+- name: lte_pbch_demux_vcvc_0
+  id: lte_pbch_demux_vcvc
+  parameters:
+    N_rb_dl: ''
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    rxant: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [520, 688.0]
+    rotation: 0
+    state: true
+- name: lte_pbch_descrambler_0
+  id: lte_pbch_descrambler
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [968, 696.0]
+    rotation: 0
+    state: true
+- name: lte_pbch_descrambler_vfvf_0
+  id: lte_pbch_descrambler_vfvf
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    key: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [752, 688.0]
+    rotation: 0
+    state: true
+- name: lte_pbch_scramble_sequencer_m_0
+  id: lte_pbch_scramble_sequencer_m
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [504, 1128.0]
+    rotation: 0
+    state: true
+- name: lte_pcfich_decoder_0
+  id: lte_pcfich_decoder
+  parameters:
+    N_rb_dl: '50'
+    affinity: ''
+    alias: ''
+    comment: ''
+    key: '"symbol"'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [64, 816.0]
+    rotation: 0
+    state: true
+- name: lte_pcfich_demux_vcvc_0
+  id: lte_pcfich_demux_vcvc
+  parameters:
+    N_rb_dl: ''
+    affinity: ''
+    alias: ''
+    comment: ''
+    key: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    out_key: ''
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [264, 848.0]
+    rotation: 0
+    state: true
+- name: lte_pcfich_scramble_sequencer_m_0
+  id: lte_pcfich_scramble_sequencer_m
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [480, 872.0]
+    rotation: 0
+    state: true
+- name: lte_pcfich_unpack_vfm_0
+  id: lte_pcfich_unpack_vfm
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    key: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [992, 48.0]
+    rotation: 0
+    state: true
+- name: lte_pre_decoder_vcvc_0
+  id: lte_pre_decoder_vcvc
+  parameters:
+    N_ant: '1'
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    rxant: '1'
+    style: ''
+    vlen: ''
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [784, 856.0]
+    rotation: 0
+    state: true
+- name: lte_pss_calculator_vcm_0
+  id: lte_pss_calculator_vcm
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    fftl: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [32, 992.0]
+    rotation: 0
+    state: true
+- name: lte_pss_symbol_selector_cvc_0
+  id: lte_pss_symbol_selector_cvc
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    fftl: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [544, 976.0]
+    rotation: 0
+    state: true
+- name: lte_pss_sync_0
+  id: lte_pss_sync
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    fftlen: '2048'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [48, 408.0]
+    rotation: 0
+    state: true
+- name: lte_pss_tagger_cc_0
+  id: lte_pss_tagger_cc
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    fftl: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [320, 968.0]
+    rotation: 0
+    state: true
+- name: lte_qpsk_soft_demod_vcvf_0
+  id: lte_qpsk_soft_demod_vcvf
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    vlen: ''
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [744, 992.0]
+    rotation: 0
+    state: true
+- name: lte_remove_cp_cvc_0
+  id: lte_remove_cp_cvc
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    fftl: ''
+    key: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [968, 984.0]
+    rotation: 0
+    state: true
+- name: lte_repeat_message_source_vf_0
+  id: lte_repeat_message_source_vf
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    vector_len: ''
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [32, 1120.0]
+    rotation: 0
+    state: true
+- name: lte_rough_symbol_sync_cc_0
+  id: lte_rough_symbol_sync_cc
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    fftl: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    vlen: ''
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [896, 168.0]
+    rotation: 0
+    state: true
+- name: lte_rs_map_generator_m_0
+  id: lte_rs_map_generator_m
+  parameters:
+    N_rb_dl: ''
+    affinity: ''
+    alias: ''
+    ant_port: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [264, 1112.0]
+    rotation: 0
+    state: true
+- name: lte_sss_calculator_vcm_0
+  id: lte_sss_calculator_vcm
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    fftl: ''
+    in_key: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    out_key: ''
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [744, 1096.0]
+    rotation: 0
+    state: true
+- name: lte_sss_symbol_selector_cvc_0
+  id: lte_sss_symbol_selector_cvc
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    fftl: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [32, 1200.0]
+    rotation: 0
+    state: true
+- name: lte_sss_sync_0
+  id: lte_sss_sync
+  parameters:
+    N_rb_dl: '50'
+    affinity: ''
+    alias: ''
+    comment: ''
+    fftlen: '2048'
+    group_key: '"N_id_2"'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    offset_key: '"offset_marker"'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [208, 384.0]
+    rotation: 0
+    state: true
+- name: lte_sss_tagger_cc_0
+  id: lte_sss_tagger_cc
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    fftl: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1024, 1112.0]
+    rotation: 0
+    state: true
+- name: lte_subblock_deinterleaver_vfvf_0
+  id: lte_subblock_deinterleaver_vfvf
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    items_per_group: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    num_groups: ''
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [256, 1208.0]
+    rotation: 0
+    state: true
+- name: lte_sync_frequency_0
+  id: lte_sync_frequency
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    fftl: ''
+    sig: ''
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [56, 280.0]
+    rotation: 0
+    state: true
+- name: lte_top_block_siso_0
+  id: lte_top_block_siso
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [528, 1560.0]
+    rotation: 0
+    state: true
+- name: pwr_bch_decoder_0
+  id: pwr_bch_decoder
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [808, 1552.0]
+    rotation: 0
+    state: true
+connections: []
+
+metadata:
+  file_format: 1
+  grc_version: 3.10.5.1

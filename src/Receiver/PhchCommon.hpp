@@ -2,7 +2,7 @@
  * \section COPYRIGHT
  *
  * Passive Weather Radar (PWR).
- * Copyright (C) 2010-2021 Peter F Bradshaw
+ * Copyright (C) 2010-2025 Peter F Bradshaw
  * A detailed list of copyright holders can be found in the file "AUTHORS".
  *
  * \section LICENSE
@@ -21,8 +21,7 @@
  *  along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#ifndef __PHCHCOMMON_HPP__
-#define __PHCHCOMMON_HPP__
+#pragma once
 
 #define TX_MODE_CONTINUOUS 1
 
@@ -31,12 +30,15 @@
 #include <string.h>
 #include <vector>
 #include <semaphore.h>
-#include "srslte/srslte.h"
-#include "srslte/interfaces/ue_interfaces.h"
-#include "srslte/radio/radio.h"
-#include "srslte/common/log.h"
+#include "srslte.h"
+#include "interfaces/ue_interfaces.h"
+#include "radio/radio.h"
+#include "common/log.h"
+#include "Metrics.hpp"
 #include "srslte/common/gen_mch_tables.h"
-#include "phy_metrics.h"
+//#include "phy_metrics.h"
+
+namespace srsue {
 
 class ChestFeedbackItf
   {
@@ -78,10 +80,10 @@ class PhchCommon
   public:
 
     /* Common variables used by all phy workers */
-    phy_interface_rrc::phy_cfg_t *config;
-    phy_args_t                   *args;
-    rrc_interface_phy *rrc;
-    mac_interface_phy *mac;
+    srsue::phy_interface_rrc::phy_cfg_t *config;
+    srsue::phy_args_t                   *args;
+    srsue::rrc_interface_phy *rrc;
+    srsue::mac_interface_phy *mac;
     srslte_ue_ul_t     ue_ul;
 
     /* Power control variables */
@@ -121,12 +123,12 @@ class PhchCommon
 
     PhchCommon(uint32_t max_workers);
     ~PhchCommon();
-    void Init(phy_interface_rrc::phy_cfg_t *config,
-              phy_args_t  *args,
+    void Init(srsue::phy_interface_rrc::phy_cfg_t *config,
+              srsue::phy_args_t  *args,
               srslte::log *_log,
               srslte::radio *_radio,
-              rrc_interface_phy *rrc,
-              mac_interface_phy *_mac);
+              srsue::rrc_interface_phy *rrc,
+              srsue::mac_interface_phy *_mac);
 
     /* For RNTI searches, -1 means now or forever */
     void               set_ul_rnti(srslte_rnti_type_t type, uint16_t rnti_value, int tti_start = -1, int tti_end = -1);
@@ -237,4 +239,4 @@ class PhchCommon
     bool is_mcch_subframe(subframe_cfg_t *cfg, uint32_t phy_tti);
   };
 
-#endif // __PHCHCOMMON_HPP__
+}
